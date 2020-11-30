@@ -1,0 +1,359 @@
+﻿<Page
+    x:Class="GoldMidiPlayer.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GoldMidiPlayer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Width="800">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="GoldMidiTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Page.DataContext>
+        <local:MainPageData/>
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/MainModule.png" />
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="44*"/>
+            <ColumnDefinition Width="296*"/>
+            <ColumnDefinition Width="63*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="23*"/>
+                <RowDefinition Height="29*"/>
+                <RowDefinition Height="122*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="1" Text="VOL" />
+            <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="1" Width="41" Height="29" />
+            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalVolText" Grid.Row="1" Grid.Column="1" Text="{Binding GlobalVolume}" />
+            <Border Grid.Row="3" Grid.Column="1" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,10" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="105" />
+            <Border Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,1,1,10" BorderBrush="#0b1012" Width="29" Height="99" />
+            <Slider Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Orientation="Vertical" Maximum="127" Margin="0,5,0,20" HorizontalAlignment="Center" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalVolume" SmallChange="1" />
+        </Grid>
+        <StackPanel Grid.Column="1" Grid.Row="4">
+            <Grid Height="54">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="42"/>
+                    <ColumnDefinition Width="42"/>
+                    <ColumnDefinition Width="42"/>
+                    <ColumnDefinition Width="42"/>
+                    <ColumnDefinition Width="42"/>
+                    <ColumnDefinition Width="42"/>
+                    <ColumnDefinition Width="42"/>
+                    <ColumnDefinition Width="42"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="42" Height="42" Margin="0,12,0,0">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonOpenHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonOpen.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top">
+                        </ImageBrush>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="2" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonSaveHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonSave.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="3" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonSf2Hover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonSf2.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="4" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonGMHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonGM.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="5" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonMp3Hover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonMp3.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <ToggleButton Style="{StaticResource ToggleButtonMixer}" x:Name="MixerBtn" Grid.Column="6" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="MixerBtn_Click" Checked="MixerBtn_Checked">
+                    <ToggleButton.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Name="mixerBg" x:Key="ToggleButtonBackgroundPointerOver" ImageSource="/Assets/ButtonMixerHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </ToggleButton.Resources>
+                    <ToggleButton.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonMixer.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </ToggleButton.Background>
+                </ToggleButton>
+                <Button Grid.Column="7" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonPianoHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonPiano.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="8" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonSettingsHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonSettings.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+            <Grid Height="35">
+                <Rectangle Style="{StaticResource RectangleFieldPrintText}" Height="35" Width="592" Margin="8,5,8,5" />
+                <TextBlock Style="{StaticResource TextBlockFieldPrint}" HorizontalAlignment="Left" Margin="22,0,0,0" Text="{Binding MidiName}" />
+            </Grid>
+            <Grid Height="35">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="197*"/>
+                    <ColumnDefinition Width="55*"/>
+                    <ColumnDefinition Width="57*"/>
+                    <ColumnDefinition Width="222*"/>
+                    <ColumnDefinition Width="61*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="0" Margin="8,5,1,5" Width="188" Height="35" />
+                <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="1" Margin="1,5,1,5" Width="54" Height="35" />
+                <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="2" Margin="1,5,1,5" Height="35" Width="56" />
+                <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="0" HorizontalAlignment="Left" Margin="22,0,0,0" Text="KEY" />
+                <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="1" Text="4/4" FontSize="14" />
+                <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="2" Text="00:00:00" />
+                <Border Grid.Column="3" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Width="214" Height="30" Margin="1,1,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" />
+                <Border Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Width="207" Height="24" Margin="1,1,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" />
+                <Slider Style="{StaticResource SliderGM}" Grid.Column="3" Maximum="127" Margin="10,0,10,0" />
+                <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="4" Margin="1,4,8,5" Height="35" Width="53" />
+                <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="4" Text="00:00:00" Margin="0,0,5,0" />
+            </Grid>
+            <Grid Height="27">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0.58*"/>
+                    <ColumnDefinition Width="0.58*"/>
+                    <ColumnDefinition Width="0.58*"/>
+                    <ColumnDefinition Width="0.58*"/>
+                    <ColumnDefinition Width="0.58*"/>
+                    <ColumnDefinition Width="0.58*"/>
+                    <ColumnDefinition Width="0.58*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" HorizontalAlignment="Center" Height="27" Width="84" >
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/AutoPlayButtonHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/AutoPlayButton.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="1" HorizontalAlignment="Center" Height="27" Width="84" >
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/RepeatAllButtonHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/RepeatAllButton.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="2" HorizontalAlignment="Center" Height="27" Width="84" >
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/RepeatSongButtonHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/RepeatSongButton.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="3" HorizontalAlignment="Center" Width="49" Height="27" >
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonPrevHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonPrev.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="4" HorizontalAlignment="Center" Width="49" Height="27" >
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonRewindHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonRewind.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="5" HorizontalAlignment="Center" Width="49" Height="27" >
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonForwardHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonFordward.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="6" HorizontalAlignment="Center" Width="49" Height="27" >
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonNextHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonNext.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="7" HorizontalAlignment="Center" Width="49" Height="27" >
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonStopHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonStop.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="8" HorizontalAlignment="Center" Width="49" Height="27" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonPlay.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="9" HorizontalAlignment="Center" Width="49" Height="27" Margin="0,0,-2,0" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ButtonPause.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+        </StackPanel>
+        <Grid Grid.Column="2" Margin="0,0,11,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="23"/>
+                <RowDefinition Height="29"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="0" Text="PITCH" />
+            <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="0" Height="27" Width="29" />
+            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalPitchText" Grid.Row="1" Grid.Column="0" Text="0" />
+            <Border Grid.Row="3" Grid.Column="0" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,10" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="105" />
+            <Border Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,1,1,10" BorderBrush="#0b1012" Width="29" Height="99" />
+            <Slider Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="0" Foreground="#ffab28" Background="#FF071215" Maximum="12" Margin="0,5,0,20" Orientation="Vertical" HorizontalAlignment="Center"  AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" Minimum="-12" SmallChange="1" ValueChanged="SetGlobalPitch"/>
+            <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="1" Text="TEMPO" />
+            <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="1" Width="29" Height="29" />
+            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalTempoText" Grid.Row="1" Grid.Column="1" Text="0" />
+            <Border Grid.Row="3" Grid.Column="1" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,10" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="105" />
+            <Border Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,1,1,10" BorderBrush="#0b1012" Width="29" Height="99" />
+            <Slider Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Foreground="#ffab28" Background="#FF071215" Maximum="220" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,20" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalTempo" Value="80" Minimum="30" SmallChange="1"/>
+        </Grid>
+        <TextBlock x:Name="DebugText" Text="Debug Mode..." TextWrapping="Wrap" Foreground="White" Width="335" FontSize="9"/>
+    </Grid> 
+</Page>

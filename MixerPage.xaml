@@ -1,0 +1,233 @@
+﻿<Page
+    x:Class="GoldMidiPlayer.MixerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GoldMidiPlayer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Width="800" >
+    <Page.Background>
+        <SolidColorBrush Color="#FF202025" />
+    </Page.Background>
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="GoldMidiTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/Background.png"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="25*" />
+            <RowDefinition Height="25*" />
+            <RowDefinition Height="25*" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="8*" />
+        </Grid.RowDefinitions>
+        <!-- CHANNEL 0 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Text="01" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh0" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh0" Style="{StaticResource ToggleButtonMixerMute}" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh0" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh0" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh0" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Row="6" Text="{Binding Value, ElementName=VolCh0}" />
+        <Slider x:Name="VolCh0" Style="{StaticResource SliderGM}" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh0" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 1 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="1" Text="02" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh1" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="1" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh1" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="1" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh1" Grid.Column="1" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh1" Grid.Column="1" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh1" Grid.Column="1" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="1" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="1" Grid.Row="6" Text="{Binding Value, ElementName=VolCh1}" />
+        <Slider x:Name="VolCh1" Style="{StaticResource SliderGM}" Grid.Column="1" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh1" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="1" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 2 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="2" Text="03" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh2" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="2" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh2" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="2" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh2" Grid.Column="2" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh2" Grid.Column="2" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh2" Grid.Column="2" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="2" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="2" Grid.Row="6" Text="{Binding Value, ElementName=VolCh2}" />
+        <Slider x:Name="VolCh2" Style="{StaticResource SliderGM}" Grid.Column="2" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh2" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="2" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 3 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="3" Text="04" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh3" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="3" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh3" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="3" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh3" Grid.Column="3" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh3" Grid.Column="3" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh3" Grid.Column="3" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="3" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="3" Grid.Row="6" Text="{Binding Value, ElementName=VolCh3}" />
+        <Slider x:Name="VolCh3" Style="{StaticResource SliderGM}" Grid.Column="3" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh3" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="3" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 4 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="4" Text="05" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh4" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="4" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh4" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="4" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh4" Grid.Column="4" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh4" Grid.Column="4" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh4" Grid.Column="4" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="4" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="4" Grid.Row="6" Text="{Binding Value, ElementName=VolCh4}" />
+        <Slider x:Name="VolCh4" Style="{StaticResource SliderGM}" Grid.Column="4" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh4" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="4" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 5 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="5" Text="06" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh5" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="5" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh5" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="5" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh5" Grid.Column="5" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh5" Grid.Column="5" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh5" Grid.Column="5" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="5" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="5" Grid.Row="6" Text="{Binding Value, ElementName=VolCh5}" />
+        <Slider x:Name="VolCh5" Style="{StaticResource SliderGM}" Grid.Column="5" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh5" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="5" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 6 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="6" Text="07" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh6" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="6" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh6" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="6" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh6" Grid.Column="6" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh6" Grid.Column="6" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh6" Grid.Column="6" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="6" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="6" Grid.Row="6" Text="{Binding Value, ElementName=VolCh6}" />
+        <Slider x:Name="VolCh6" Style="{StaticResource SliderGM}" Grid.Column="6" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh6" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="6" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 7 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="7" Text="08" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh7" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="7" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh7" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="7" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh7" Grid.Column="7" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh7" Grid.Column="7" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh7" Grid.Column="7" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="7" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="7" Grid.Row="6" Text="{Binding Value, ElementName=VolCh7}" />
+        <Slider x:Name="VolCh7" Style="{StaticResource SliderGM}" Grid.Column="7" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh7" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="7" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 8 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="8" Text="09" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh8" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="8" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh8" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="8" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh8" Grid.Column="8" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh8" Grid.Column="8" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh8" Grid.Column="8" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="8" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="8" Grid.Row="6" Text="{Binding Value, ElementName=VolCh8}" />
+        <Slider x:Name="VolCh8" Style="{StaticResource SliderGM}" Grid.Column="8" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh8" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="8" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 9 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="9" Text="10" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh9" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="9" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh9" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="9" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh9" Grid.Column="9" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh9" Grid.Column="9" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh9" Grid.Column="9" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="9" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="9" Grid.Row="6" Text="{Binding Value, ElementName=VolCh9}" />
+        <Slider x:Name="VolCh9" Style="{StaticResource SliderGM}" Grid.Column="9" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh9" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="9" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 10 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="10" Text="11" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh10" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="10" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh10" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="10" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh10" Grid.Column="10" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh10" Grid.Column="10" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh10" Grid.Column="10" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="10" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="10" Grid.Row="6" Text="{Binding Value, ElementName=VolCh10}" />
+        <Slider x:Name="VolCh10" Style="{StaticResource SliderGM}" Grid.Column="10" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh10" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="10" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 11 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="11" Text="12" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh11" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="11" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh11" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="11" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh11" Grid.Column="11" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh11" Grid.Column="11" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh11" Grid.Column="11" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="11" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="11" Grid.Row="6" Text="{Binding Value, ElementName=VolCh11}" />
+        <Slider x:Name="VolCh11" Style="{StaticResource SliderGM}" Grid.Column="11" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh11" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="11" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 12 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="12" Text="13" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh12" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="12" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh12" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="12" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh12" Grid.Column="12" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh12" Grid.Column="12" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh12" Grid.Column="12" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="12" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="12" Grid.Row="6" Text="{Binding Value, ElementName=VolCh12}" />
+        <Slider x:Name="VolCh12" Style="{StaticResource SliderGM}" Grid.Column="12" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh12" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="12" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 13 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="13" Text="14" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh13" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="13" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh13" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="13" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh13" Grid.Column="13" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh13" Grid.Column="13" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh13" Grid.Column="13" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="13" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="13" Grid.Row="6" Text="{Binding Value, ElementName=VolCh13}" />
+        <Slider x:Name="VolCh13" Style="{StaticResource SliderGM}" Grid.Column="13" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh13" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="13" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 14 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="14" Text="15" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh14" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="14" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh14" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="14" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh14" Grid.Column="14" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh14" Grid.Column="14" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh14" Grid.Column="14" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="14" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="14" Grid.Row="6" Text="{Binding Value, ElementName=VolCh14}" />
+        <Slider x:Name="VolCh14" Style="{StaticResource SliderGM}" Grid.Column="14" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh14" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="14" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- CHANNEL 15 -->
+        <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Column="15" Text="16" TextWrapping="Wrap" Height="11" VerticalAlignment="Center"/>
+        <ToggleButton x:Name="SoloCh15" Style="{StaticResource ToggleButtonMixerSolo}" Grid.Column="15" Grid.Row="1" FontSize="7" HorizontalAlignment="Center" />
+        <ToggleButton x:Name="MuteCh15" Style="{StaticResource ToggleButtonMixerMute}" Grid.Column="15" Grid.Row="2" FontSize="7" HorizontalAlignment="Center" />
+        <local:DialControl x:Name="ReverbCh15" Grid.Column="15" Grid.Row="3" DialName="REVERB" Amount="20" />
+        <local:DialControl x:Name="ChorusCh15" Grid.Column="15" Grid.Row="4" DialName="CHORUS" />
+        <local:DialControl x:Name="PanCh15" Grid.Column="15" Grid.Row="5" DialName="PAN" />
+        <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="15" Grid.Row="6" Height="9" Width="48" />
+        <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="15" Grid.Row="6" Text="{Binding Value, ElementName=VolCh15}" />
+        <Slider x:Name="VolCh15" Style="{StaticResource SliderGM}" Grid.Column="15" Grid.Row="7" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,5" Maximum="127" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" TickPlacement="Outside" TickFrequency="1" SmallChange="1" Height="80" />
+        <ToggleButton x:Name="ProgramCh15" Style="{StaticResource ToggleButtonMixerProgram}" Grid.Column="15" Grid.Row="9" Content="Guitar" FontSize="7" HorizontalAlignment="Center" Width="45" />
+        <!-- TextBlock Grid.Column="1" HorizontalAlignment="Center" Height="36" Grid.Row="3" Text="{Binding Amount, ElementName=ReverbCh0}" TextWrapping="Wrap" VerticalAlignment="Center" Width="50" FontSize="20" Padding="0" Foreground="White" /-->
+        
+    </Grid>
+</Page>
