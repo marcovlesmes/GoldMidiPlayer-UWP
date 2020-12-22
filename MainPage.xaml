@@ -38,10 +38,10 @@
             </Grid.RowDefinitions>
             <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="1" Text="VOL" />
             <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="1" Width="41" Height="29" />
-            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalVolText" Grid.Row="1" Grid.Column="1" Text="{Binding GlobalVolume}" />
+            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalVolText" Grid.Row="1" Grid.Column="1" Text="{Binding GlobalVolumeText}" />
             <Border Grid.Row="3" Grid.Column="1" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,10" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="105" />
             <Border Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,1,1,10" BorderBrush="#0b1012" Width="29" Height="99" />
-            <Slider Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Orientation="Vertical" Maximum="127" Margin="0,5,0,20" HorizontalAlignment="Center" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalVolume" SmallChange="1" />
+            <Slider x:Name="GlobalVolumeSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Orientation="Vertical" Maximum="127" Margin="0,5,0,20" HorizontalAlignment="Center" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalVolume" SmallChange="1" Value="{Binding GlobalVolume, Mode=TwoWay, UpdateSourceTrigger=Default}" />
         </Grid>
         <StackPanel Grid.Column="1" Grid.Row="4">
             <Grid Height="54">
@@ -56,7 +56,7 @@
                     <ColumnDefinition Width="42"/>
                     <ColumnDefinition Width="42"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="42" Height="42" Margin="0,12,0,0">
+                <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="42" Height="42" Margin="0,12,0,0" Click="OpenMidi">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -85,7 +85,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonSave.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="3" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                <Button Grid.Column="3" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="OpenFont">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -99,7 +99,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonSf2.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="4" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                <Button Grid.Column="4" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="GoToWebsite">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -172,7 +172,7 @@
             </Grid>
             <Grid Height="35">
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Height="35" Width="592" Margin="8,5,8,5" />
-                <TextBlock Style="{StaticResource TextBlockFieldPrint}" HorizontalAlignment="Left" Margin="22,0,0,0" Text="{Binding MidiName}" />
+                <TextBlock x:Name="MidiNameText" Style="{StaticResource TextBlockFieldPrint}" HorizontalAlignment="Left" Margin="22,0,0,0" Text="{Binding MidiName}" />
             </Grid>
             <Grid Height="35">
                 <Grid.ColumnDefinitions>
@@ -186,13 +186,13 @@
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="1" Margin="1,5,1,5" Width="54" Height="35" />
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="2" Margin="1,5,1,5" Height="35" Width="56" />
                 <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="0" HorizontalAlignment="Left" Margin="22,0,0,0" Text="KEY" />
-                <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="1" Text="4/4" FontSize="14" />
-                <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="2" Text="00:00:00" />
+                <TextBlock x:Name="MidiTimeSignatureText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="1" Text="4/4" FontSize="14" />
+                <TextBlock x:Name="MidiCurrentTimeText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="2" Text="{Binding CurrentMidiPositionText}" />
                 <Border Grid.Column="3" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Width="214" Height="30" Margin="1,1,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" />
                 <Border Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Width="207" Height="24" Margin="1,1,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" />
-                <Slider Style="{StaticResource SliderGM}" Grid.Column="3" Maximum="127" Margin="10,0,10,0" />
+                <Slider x:Name="MidiPositionSlider" Style="{StaticResource SliderGM}" Grid.Column="3" Maximum="100" Margin="10,0,10,0" ValueChanged="SetMidiPosition" Value="{Binding CurrentMidiPosition, Mode=TwoWay, UpdateSourceTrigger=Default}" />
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="4" Margin="1,4,8,5" Height="35" Width="53" />
-                <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="4" Text="00:00:00" Margin="0,0,5,0" />
+                <TextBlock x:Name="MidiLenghtText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="4" Text="{Binding MidiLenghtText, Mode=TwoWay, UpdateSourceTrigger=Default}" Margin="0,0,5,0" />
             </Grid>
             <Grid Height="27">
                 <Grid.ColumnDefinitions>
@@ -305,7 +305,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonNext.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="7" HorizontalAlignment="Center" Width="49" Height="27" >
+                <Button Grid.Column="7" HorizontalAlignment="Center" Width="49" Height="27" Click="StopMidi" >
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -319,12 +319,12 @@
                         <ImageBrush ImageSource="/Assets/ButtonStop.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="8" HorizontalAlignment="Center" Width="49" Height="27" >
+                <Button Grid.Column="8" HorizontalAlignment="Center" Width="49" Height="27" Click="PlayMidi" >
                     <Button.Background>
                         <ImageBrush ImageSource="/Assets/ButtonPlay.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="9" HorizontalAlignment="Center" Width="49" Height="27" Margin="0,0,-2,0" >
+                <Button Grid.Column="9" HorizontalAlignment="Center" Width="49" Height="27" Margin="0,0,-2,0" Click="PauseMidi">
                     <Button.Background>
                         <ImageBrush ImageSource="/Assets/ButtonPause.png"/>
                     </Button.Background>
@@ -343,17 +343,16 @@
             </Grid.RowDefinitions>
             <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="0" Text="PITCH" />
             <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="0" Height="27" Width="29" />
-            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalPitchText" Grid.Row="1" Grid.Column="0" Text="0" />
+            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalPitchText" Grid.Row="1" Grid.Column="0" Text="{Binding GlobalPitchText}" />
             <Border Grid.Row="3" Grid.Column="0" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,10" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="105" />
             <Border Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,1,1,10" BorderBrush="#0b1012" Width="29" Height="99" />
-            <Slider Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="0" Foreground="#ffab28" Background="#FF071215" Maximum="12" Margin="0,5,0,20" Orientation="Vertical" HorizontalAlignment="Center"  AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" Minimum="-12" SmallChange="1" ValueChanged="SetGlobalPitch"/>
+            <Slider x:Name="GlobalPitchSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="0" Foreground="#ffab28" Background="#FF071215" Maximum="12" Margin="0,5,0,20" Orientation="Vertical" HorizontalAlignment="Center"  AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" Minimum="-12" SmallChange="1" ValueChanged="SetGlobalPitch" Value="{Binding GlobalPitch, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
             <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="1" Text="TEMPO" />
             <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="1" Width="29" Height="29" />
-            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalTempoText" Grid.Row="1" Grid.Column="1" Text="0" />
+            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalTempoText" Grid.Row="1" Grid.Column="1" Text="{Binding GlobalTempoText}" />
             <Border Grid.Row="3" Grid.Column="1" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,10" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="105" />
             <Border Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,1,1,10" BorderBrush="#0b1012" Width="29" Height="99" />
-            <Slider Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Foreground="#ffab28" Background="#FF071215" Maximum="220" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,20" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalTempo" Value="80" Minimum="30" SmallChange="1"/>
+            <Slider x:Name="GlobalTempoSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Foreground="#ffab28" Background="#FF071215" Maximum="140" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,20" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalTempo" Value="{Binding GlobalTempo, Mode=TwoWay, UpdateSourceTrigger=Default}" Minimum="60" SmallChange="1"/>
         </Grid>
-        <TextBlock x:Name="DebugText" Text="Debug Mode..." TextWrapping="Wrap" Foreground="White" Width="335" FontSize="9"/>
     </Grid> 
 </Page>
