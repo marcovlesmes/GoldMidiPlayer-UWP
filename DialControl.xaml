@@ -22,7 +22,6 @@
             <Ellipse HorizontalAlignment="Center" Height="25" VerticalAlignment="Center" Width="25" StrokeThickness="3">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="/Assets/DialTop.png" Stretch="Uniform" />
-
                 </Ellipse.Fill>
             </Ellipse>
         </Grid>

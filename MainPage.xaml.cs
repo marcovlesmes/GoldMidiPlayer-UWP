@@ -10,6 +10,12 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml;
 using Common;
 using System.Diagnostics;
+using Windows.System.Threading;
+using Windows.UI.Core;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
+using System.Collections.Generic;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -21,19 +27,50 @@ namespace GoldMidiPlayer
     /// 
     public sealed partial class MainPage : Page
     {
-        private AppWindow appWindow;
-        private Frame MixerFrame = new Frame();
-        private BassManager bassManager = new BassManager();
+
+        public static Dictionary<UIContext, AppWindow> appWindows = new Dictionary<UIContext, AppWindow>();
+
+        private ThreadPoolTimer RefreshCurrentPlaying;
+        public BassManager bassManager = new BassManager();
+        public MidiFile CurrentFile;
+
         public MainPage()
         {
             this.InitializeComponent();
-            
-            //ApplicationView.PreferredLaunchViewSize = new Size(800, 174);
-            //ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-            //ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(800, 174));
         }
 
-        private void RefreshMainScreen(MidiFile midiFile)
+        private async Task<bool> ShowWindow(Type type, ToggleButton toggleButton)
+        {
+            AppWindow appWindow = await AppWindow.TryCreateAsync();
+            Frame frame = new Frame();
+            frame.Navigate(type, this);
+            ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
+            appWindows.Add(frame.UIContext, appWindow);
+            appWindow.Closed += delegate
+                {
+                    MainPage.appWindows.Remove(frame.UIContext);
+                    frame.Content = null;
+                    appWindow = null;
+                    toggleButton.IsChecked = false;
+                };
+            try
+            {
+                await appWindow.TryShowAsync();
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception.Message);
+            }
+            return true;
+        }
+
+        private async Task<bool> CloseWindow(AppWindow window)
+        {
+            await window.CloseAsync();
+            return true;
+        }
+
+        private async void RefreshMainScreen(MidiFile midiFile)
         {
             if (midiFile != null)
             {
@@ -51,6 +88,13 @@ namespace GoldMidiPlayer
                 GlobalPitchText.Foreground = white;
                 GlobalTempoText.Foreground = white;
                 MidiLenghtText.Text = Utility.SecondsToTime(midiFile.Lenght);
+                if (MixerPage.window != null)
+                {
+                    await CloseWindow(MixerPage.window);
+                    await ShowWindow(typeof(MixerPage), MixerBtn);
+                }
+
+                //Debug.Write("MixerIsOpen: ", (MixerFrame.Content != null).ToString());
             }
         }
 
@@ -77,33 +121,12 @@ namespace GoldMidiPlayer
 
         private async void MixerBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (appWindow == null)
-            {
-                // Create Window
-                appWindow = await AppWindow.TryCreateAsync();
-                appWindow.Closed += delegate { appWindow = null; MixerFrame.Content = null; MixerBtn.IsChecked = false; };
-                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(800, 250));
-                // appWindow.RequestSize(new Size(800, 250));
-                MixerFrame.Navigate(typeof(MixerPage));
-                ElementCompositionPreview.SetAppWindowContent(appWindow, MixerFrame);
+            ToggleButton toggleButton = sender as ToggleButton;
 
-                Color darkBlue = Color.FromArgb(255, 5, 13, 16);
-                appWindow.TitleBar.ButtonBackgroundColor = darkBlue;
-                appWindow.TitleBar.BackgroundColor = darkBlue;
-
-            }
+            if (toggleButton.IsChecked == true)
+                await ShowWindow(typeof(MixerPage), toggleButton);
             else
-            {
-                MixerBtn.IsChecked = true;
-            }
-            try
-            {
-                await appWindow.TryShowAsync();
-            }
-            catch (Exception systemException)
-            {
-                Debug.WriteLine(systemException.Message);
-            }
+                await CloseWindow(MixerPage.window);
         }
 
         private void MixerBtn_Checked(object sender, RoutedEventArgs e)
@@ -113,13 +136,42 @@ namespace GoldMidiPlayer
 
         private void PlayMidi(object sender, RoutedEventArgs e)
         {
-            bassManager.Play();
+            bool IsPlaying = bassManager.Play();
+            
+            if (IsPlaying)
+            {
+                TimeSpan interval = TimeSpan.FromSeconds(1);
+                RefreshCurrentPlaying = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+                {
+                    // Update Midi position
+                    Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                        () =>
+                        {
+                            // Update UI
+                            if (bassManager.IsPlaying())
+                            {
+                                double Position = bassManager.GetMidiPosition();
+                                float MidiLenght = Utility.TimeToSeconds(MidiLenghtText.Text);
+                                double NewPosition = Utility.Linear((float)Position, 0f, MidiLenght, 0f, 100f);
+                                MidiPositionSlider.Value = Position;
+                            }
+                        });
+                }, interval);
+            }
         }
 
         private async void OpenMidi(object sender, RoutedEventArgs e)
         {
-            MidiFile midiFile = await bassManager.LoadFile();
-            RefreshMainScreen(midiFile);
+            try
+            {
+                MidiFile midiFile = await bassManager.LoadFile();
+                CurrentFile = midiFile;
+                RefreshMainScreen(midiFile);
+            }
+            catch (Exception exep)
+            {
+                Debug.WriteLine(exep.Message);
+            }
         }
 
         private async void OpenFont(object sender, RoutedEventArgs e)
@@ -129,12 +181,27 @@ namespace GoldMidiPlayer
 
         private void StopMidi(object sender, RoutedEventArgs e)
         {
-            bassManager.Stop();
+            bool IsStoped = bassManager.Stop();
+            if (IsStoped && RefreshCurrentPlaying != null)
+            {
+                RefreshCurrentPlaying.Cancel();
+                MidiPositionSlider.Value = 0;
+            }
         }
 
         private void PauseMidi(object sender, RoutedEventArgs e)
         {
-            bassManager.Pause();
+            bool isPlaying = bassManager.IsPlaying();
+            if (isPlaying)
+            {
+                bassManager.Pause();
+                if (RefreshCurrentPlaying != null)
+                    RefreshCurrentPlaying.Cancel();
+            }
+            else
+            {
+                PlayMidi(sender, e);
+            }
         }
 
         private async void GoToWebsite(object sender, RoutedEventArgs e)
@@ -157,6 +224,15 @@ namespace GoldMidiPlayer
             Slider slider = sender as Slider;
             double value = slider.Value;
             bassManager.SetMidiPosition(value);
+        }
+
+        private async void ExportMp3(object sender, RoutedEventArgs e)
+        {
+            if (CurrentFile != null)
+            {
+                int response = await bassManager.ExportMp3();
+                Debug.WriteLine(response);
+            }
         }
     }
 }

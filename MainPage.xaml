@@ -5,7 +5,7 @@
     xmlns:local="using:GoldMidiPlayer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Width="800">
+    mc:Ignorable="d" Width="800" MinHeight="200">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,7 +17,7 @@
         <local:MainPageData/>
     </Page.DataContext>
 
-    <Grid>
+    <Grid MaxHeight="200">
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/MainModule.png" />
         </Grid.Background>
@@ -39,9 +39,8 @@
             <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="1" Text="VOL" />
             <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="1" Width="41" Height="29" />
             <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalVolText" Grid.Row="1" Grid.Column="1" Text="{Binding GlobalVolumeText}" />
-            <Border Grid.Row="3" Grid.Column="1" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,10" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="105" />
-            <Border Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,1,1,10" BorderBrush="#0b1012" Width="29" Height="99" />
-            <Slider x:Name="GlobalVolumeSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Orientation="Vertical" Maximum="127" Margin="0,5,0,20" HorizontalAlignment="Center" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalVolume" SmallChange="1" Value="{Binding GlobalVolume, Mode=TwoWay, UpdateSourceTrigger=Default}" />
+            <Border Grid.Row="2" Grid.Column="1" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="135" />
+            <Slider x:Name="GlobalVolumeSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Orientation="Vertical" Maximum="127" Margin="0,5,0,10" HorizontalAlignment="Center" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="127" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalVolume" SmallChange="1" Value="{Binding GlobalVolume, Mode=TwoWay, UpdateSourceTrigger=Default}" />
         </Grid>
         <StackPanel Grid.Column="1" Grid.Row="4">
             <Grid Height="54">
@@ -113,7 +112,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonGM.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="5" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                <Button Grid.Column="5" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="ExportMp3">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -190,7 +189,7 @@
                 <TextBlock x:Name="MidiCurrentTimeText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="2" Text="{Binding CurrentMidiPositionText}" />
                 <Border Grid.Column="3" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Width="214" Height="30" Margin="1,1,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" />
                 <Border Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Width="207" Height="24" Margin="1,1,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" />
-                <Slider x:Name="MidiPositionSlider" Style="{StaticResource SliderGM}" Grid.Column="3" Maximum="100" Margin="10,0,10,0" ValueChanged="SetMidiPosition" Value="{Binding CurrentMidiPosition, Mode=TwoWay, UpdateSourceTrigger=Default}" />
+                <Slider x:Name="MidiPositionSlider" Style="{StaticResource SliderGM}" Grid.Column="3" Maximum="100" Margin="10,0,10,0" Value="{Binding CurrentMidiPosition, Mode=TwoWay, UpdateSourceTrigger=Default}" />
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="4" Margin="1,4,8,5" Height="35" Width="53" />
                 <TextBlock x:Name="MidiLenghtText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="4" Text="{Binding MidiLenghtText, Mode=TwoWay, UpdateSourceTrigger=Default}" Margin="0,0,5,0" />
             </Grid>
@@ -282,7 +281,7 @@
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
                                 <ResourceDictionary x:Key="Default">
-                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonForwardHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonFordwardHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                                 </ResourceDictionary>
                             </ResourceDictionary.ThemeDictionaries>
                         </ResourceDictionary>
@@ -344,15 +343,13 @@
             <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="0" Text="PITCH" />
             <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="0" Height="27" Width="29" />
             <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalPitchText" Grid.Row="1" Grid.Column="0" Text="{Binding GlobalPitchText}" />
-            <Border Grid.Row="3" Grid.Column="0" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,10" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="105" />
-            <Border Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,1,1,10" BorderBrush="#0b1012" Width="29" Height="99" />
-            <Slider x:Name="GlobalPitchSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="0" Foreground="#ffab28" Background="#FF071215" Maximum="12" Margin="0,5,0,20" Orientation="Vertical" HorizontalAlignment="Center"  AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" Minimum="-12" SmallChange="1" ValueChanged="SetGlobalPitch" Value="{Binding GlobalPitch, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
+            <Border Grid.Row="3" Grid.Column="0" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,0" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="135" />
+            <Slider x:Name="GlobalPitchSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="0" Foreground="#ffab28" Background="#FF071215" Maximum="12" Margin="0,5,0,10" Orientation="Vertical" HorizontalAlignment="Center"  AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="127" TickPlacement="Outside" TickFrequency="1" Minimum="-12" SmallChange="1" ValueChanged="SetGlobalPitch" Value="{Binding GlobalPitch, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
             <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="1" Text="TEMPO" />
             <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="1" Width="29" Height="29" />
             <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalTempoText" Grid.Row="1" Grid.Column="1" Text="{Binding GlobalTempoText}" />
-            <Border Grid.Row="3" Grid.Column="1" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,10" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="105" />
-            <Border Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,1,1,10" BorderBrush="#0b1012" Width="29" Height="99" />
-            <Slider x:Name="GlobalTempoSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Foreground="#ffab28" Background="#FF071215" Maximum="140" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,20" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="98" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalTempo" Value="{Binding GlobalTempo, Mode=TwoWay, UpdateSourceTrigger=Default}" Minimum="60" SmallChange="1"/>
+            <Border Grid.Row="3" Grid.Column="1" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,0" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="135" />
+            <Slider x:Name="GlobalTempoSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Foreground="#ffab28" Background="#FF071215" Maximum="140" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,10" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="127" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalTempo" Value="{Binding GlobalTempo, Mode=TwoWay, UpdateSourceTrigger=Default}" Minimum="60" SmallChange="1"/>
         </Grid>
     </Grid> 
 </Page>

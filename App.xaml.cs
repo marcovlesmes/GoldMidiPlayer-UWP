@@ -47,7 +47,7 @@ namespace GoldMidiPlayer
             ApplicationView.GetForCurrentView().SetPreferredMinSize(defaultSize);
             ApplicationView.PreferredLaunchViewSize = defaultSize;
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(800, 174));
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(800, 200));
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

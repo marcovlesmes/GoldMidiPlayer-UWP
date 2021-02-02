@@ -6,10 +6,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Xml.Dom;
+using Windows.Storage;
 
 namespace GoldMidiPlayer
 {
-    class MainPageData: INotifyPropertyChanged
+    class MainPageData : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -70,7 +72,7 @@ namespace GoldMidiPlayer
         public int GlobalTempo
         {
             get { return _globalTempo; }
-            set 
+            set
             {
                 int scaledValue = 60000000 / (int)value;
                 _globalTempo = scaledValue;
@@ -106,5 +108,578 @@ namespace GoldMidiPlayer
             }
         }
 
+        // CHANNEL VOLUME
+        private int[] _channelsVolume = new int[16] {127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127};
+        private int[] _previusChannelsVolume = new int[16] { 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127 };
+
+
+        public int Channel0Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(0); }
+            set {
+                _channelsVolume[0] = value;
+                Debug.WriteLine("Channel0VolumeSetted");
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel0Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel0Mute"));
+            }
+        }
+
+        private int PreviusChannel0Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(0); }
+            set { _previusChannelsVolume[0] = value; }
+        }
+
+        public bool Channel0Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(0) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel0Volume = Channel0Volume;
+                    Channel0Volume = 0;
+                }
+                else
+                {
+                    Channel0Volume = PreviusChannel0Volume;
+                }
+            }
+        }
+
+        public int Channel1Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(1); }
+            set
+            {
+                _channelsVolume[1] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel1Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel1Mute"));
+            }
+        }
+
+        private int PreviusChannel1Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(1); }
+            set { _previusChannelsVolume[1] = value; }
+        }
+
+        public bool Channel1Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(1) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel1Volume = Channel1Volume;
+                    Channel1Volume = 0;
+                }
+                else
+                {
+                    Channel1Volume = PreviusChannel1Volume;
+                }
+            }
+        }
+
+        public int Channel2Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(2); }
+            set
+            {
+                _channelsVolume[2] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel2Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel2Mute"));
+            }
+        }
+
+        private int PreviusChannel2Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(2); }
+            set { _previusChannelsVolume[2] = value; }
+        }
+
+        public bool Channel2Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(2) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel2Volume = Channel2Volume;
+                    Channel2Volume = 0;
+                }
+                else
+                {
+                    Channel2Volume = PreviusChannel2Volume;
+                }
+            }
+        }
+
+        public int Channel3Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(3); }
+            set
+            {
+                _channelsVolume[3] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel3Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel3Mute"));
+            }
+        }
+
+        private int PreviusChannel3Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(3); }
+            set { _previusChannelsVolume[3] = value; }
+        }
+
+        public bool Channel3Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(3) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel3Volume = Channel3Volume;
+                    Channel3Volume = 0;
+                }
+                else
+                {
+                    Channel3Volume = PreviusChannel3Volume;
+                }
+            }
+        }
+
+        public int Channel4Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(4); }
+            set
+            {
+                _channelsVolume[4] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel4Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel4Mute"));
+            }
+        }
+
+        private int PreviusChannel4Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(4); }
+            set { _previusChannelsVolume[4] = value; }
+        }
+
+        public bool Channel4Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(4) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel4Volume = Channel4Volume;
+                    Channel4Volume = 0;
+                }
+                else
+                {
+                    Channel4Volume = PreviusChannel4Volume;
+                }
+            }
+        }
+
+        public int Channel5Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(5); }
+            set
+            {
+                _channelsVolume[5] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel5Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel5Mute"));
+            }
+        }
+
+        private int PreviusChannel5Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(5); }
+            set { _previusChannelsVolume[5] = value; }
+        }
+
+        public bool Channel5Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(5) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel5Volume = Channel5Volume;
+                    Channel5Volume = 0;
+                }
+                else
+                {
+                    Channel5Volume = PreviusChannel5Volume;
+                }
+            }
+        }
+
+        public int Channel6Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(6); }
+            set
+            {
+                _channelsVolume[6] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel6Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel6Mute"));
+            }
+        }
+
+        private int PreviusChannel6Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(6); }
+            set { _previusChannelsVolume[6] = value; }
+        }
+
+        public bool Channel6Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(6) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel6Volume = Channel6Volume;
+                    Channel6Volume = 0;
+                }
+                else
+                {
+                    Channel6Volume = PreviusChannel6Volume;
+                }
+            }
+        }
+
+        public int Channel7Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(7); }
+            set
+            {
+                _channelsVolume[7] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel7Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel7Mute"));
+            }
+        }
+
+        private int PreviusChannel7Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(7); }
+            set { _previusChannelsVolume[7] = value; }
+        }
+
+        public bool Channel7Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(7) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel7Volume = Channel7Volume;
+                    Channel7Volume = 0;
+                }
+                else
+                {
+                    Channel7Volume = PreviusChannel7Volume;
+                }
+            }
+        }
+
+        public int Channel8Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(8); }
+            set
+            {
+                _channelsVolume[8] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel8Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel8Mute"));
+            }
+        }
+
+        private int PreviusChannel8Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(8); }
+            set { _previusChannelsVolume[8] = value; }
+        }
+
+        public bool Channel8Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(8) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel8Volume = Channel8Volume;
+                    Channel8Volume = 0;
+                }
+                else
+                {
+                    Channel8Volume = PreviusChannel8Volume;
+                }
+            }
+        }
+
+        public int Channel9Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(9); }
+            set
+            {
+                _channelsVolume[9] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel9Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel9Mute"));
+            }
+        }
+
+        private int PreviusChannel9Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(9); }
+            set { _previusChannelsVolume[9] = value; }
+        }
+
+        public bool Channel9Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(9) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel9Volume = Channel9Volume;
+                    Channel9Volume = 0;
+                }
+                else
+                {
+                    Channel9Volume = PreviusChannel9Volume;
+                }
+            }
+        }
+
+        public int Channel10Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(10); }
+            set
+            {
+                _channelsVolume[10] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel10Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel10Mute"));
+            }
+        }
+
+        private int PreviusChannel10Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(10); }
+            set { _previusChannelsVolume[10] = value; }
+        }
+
+        public bool Channel10Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(10) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel10Volume = Channel10Volume;
+                    Channel10Volume = 0;
+                }
+                else
+                {
+                    Channel10Volume = PreviusChannel10Volume;
+                }
+            }
+        }
+
+        public int Channel11Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(11); }
+            set
+            {
+                _channelsVolume[11] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel11Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel11Mute"));
+            }
+        }
+
+        private int PreviusChannel11Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(11); }
+            set { _previusChannelsVolume[11] = value; }
+        }
+
+        public bool Channel11Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(11) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel11Volume = Channel11Volume;
+                    Channel11Volume = 0;
+                }
+                else
+                {
+                    Channel11Volume = PreviusChannel11Volume;
+                }
+            }
+        }
+
+        public int Channel12Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(12); }
+            set
+            {
+                _channelsVolume[12] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel12Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel12Mute"));
+            }
+        }
+
+        private int PreviusChannel12Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(12); }
+            set { _previusChannelsVolume[12] = value; }
+        }
+
+        public bool Channel12Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(12) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel12Volume = Channel12Volume;
+                    Channel12Volume = 0;
+                }
+                else
+                {
+                    Channel12Volume = PreviusChannel12Volume;
+                }
+            }
+        }
+
+        public int Channel13Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(13); }
+            set
+            {
+                _channelsVolume[13] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel13Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel13Mute"));
+            }
+        }
+
+        private int PreviusChannel13Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(13); }
+            set { _previusChannelsVolume[13] = value; }
+        }
+
+        public bool Channel13Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(13) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel13Volume = Channel13Volume;
+                    Channel13Volume = 0;
+                }
+                else
+                {
+                    Channel13Volume = PreviusChannel13Volume;
+                }
+            }
+        }
+
+        public int Channel14Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(14); }
+            set
+            {
+                _channelsVolume[14] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel14Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel14Mute"));
+            }
+        }
+
+        private int PreviusChannel14Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(14); }
+            set { _previusChannelsVolume[14] = value; }
+        }
+
+        public bool Channel14Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(14) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel14Volume = Channel14Volume;
+                    Channel14Volume = 0;
+                }
+                else
+                {
+                    Channel14Volume = PreviusChannel14Volume;
+                }
+            }
+        }
+
+        public int Channel15Volume
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(15); }
+            set
+            {
+                _channelsVolume[15] = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel15Volume"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Channel15Mute"));
+            }
+        }
+
+        private int PreviusChannel15Volume
+        {
+            get { return _previusChannelsVolume.ElementAtOrDefault<int>(15); }
+            set { _previusChannelsVolume[15] = value; }
+        }
+
+        public bool Channel15Mute
+        {
+            get { return _channelsVolume.ElementAtOrDefault<int>(15) == 0; }
+            set
+            {
+                if (value)
+                {
+                    PreviusChannel15Volume = Channel15Volume;
+                    Channel15Volume = 0;
+                }
+                else
+                {
+                    Channel15Volume = PreviusChannel15Volume;
+                }
+            }
+        }
+
+        // SOLO CHANNELS
+        private bool[] _soloChannels = new bool[16];
+        public bool SoloChannel1
+        {
+            get { return _soloChannels[0]; }
+            set { _soloChannels[0] = value; }
+        }
+
+        public List<ProgramsModel> Programs { get; set; }
+
+        public MainPageData()
+        {
+            Programs = new List<ProgramsModel>();
+            var gmFile = System.Xml.Linq.XDocument.Load(@"Assets\general_midi.xml");
+            System.Xml.Linq.XName rootName = "GENERAL-MIDI";
+            System.Xml.Linq.XName programsName = "PROGRAM";
+            var root = gmFile.Element(rootName);
+            var programs = root.Descendants(programsName);
+            foreach (System.Xml.Linq.XElement element in programs)
+            {
+                var childs = element.Descendants();
+                Programs.Add(new ProgramsModel(int.Parse(childs.ElementAt(0).Value), childs.ElementAt(1).Value));
+            }
+        }
     }
 }

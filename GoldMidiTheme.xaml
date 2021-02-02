@@ -944,6 +944,9 @@
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="VerticalThumb.(UIElement.Visibility)" Value="Collapsed"/>
+                                    </VisualState.Setters>
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SliderHeaderForegroundDisabled}"/>
