@@ -39,16 +39,17 @@ namespace GoldMidiPlayer
             this.InitializeComponent();
         }
 
-        private async Task<bool> ShowWindow(Type type, ToggleButton toggleButton)
+        public async Task<bool> ShowWindow(Type type, ToggleButton toggleButton)
         {
             AppWindow appWindow = await AppWindow.TryCreateAsync();
             Frame frame = new Frame();
             frame.Navigate(type, this);
             ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
-            appWindows.Add(frame.UIContext, appWindow);
+            UIContext uIContext = frame.UIContext;
+            appWindows.Add(uIContext, appWindow);
             appWindow.Closed += delegate
                 {
-                    MainPage.appWindows.Remove(frame.UIContext);
+                    MainPage.appWindows.Remove(uIContext);
                     frame.Content = null;
                     appWindow = null;
                     toggleButton.IsChecked = false;
@@ -64,7 +65,7 @@ namespace GoldMidiPlayer
             return true;
         }
 
-        private async Task<bool> CloseWindow(AppWindow window)
+        public async Task<bool> CloseWindow(AppWindow window)
         {
             await window.CloseAsync();
             return true;
@@ -90,7 +91,10 @@ namespace GoldMidiPlayer
                 MidiLenghtText.Text = Utility.SecondsToTime(midiFile.Lenght);
                 if (MixerPage.window != null)
                 {
-                    await CloseWindow(MixerPage.window);
+                    await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        CloseWindow(MixerPage.window);
+                    });
                     await ShowWindow(typeof(MixerPage), MixerBtn);
                 }
 

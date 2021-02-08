@@ -21,8 +21,7 @@ namespace GoldMidiPlayer
 {
     public sealed partial class MixerPage : Page
     {
-        private MidiFile currentFile;
-        private BassManager bassManager;
+        private MainPage mainPage;
         private ToggleButton currentTbChannelProgram;
         public static AppWindow window;
 
@@ -36,12 +35,10 @@ namespace GoldMidiPlayer
         {
             if (e.Parameter != null)
             {
-                var mainPage = e.Parameter as MainPage;
-                currentFile = mainPage.CurrentFile as MidiFile;
-                bassManager = mainPage.bassManager as BassManager;
+                mainPage = e.Parameter as MainPage;
                 // appWindow = mainPage.appWindow as AppWindow;
-                if (currentFile != null)
-                    RefreshMixerScreen(currentFile);
+                if (mainPage.CurrentFile != null)
+                    RefreshMixerScreen(mainPage.CurrentFile);
             }
             base.OnNavigatedTo(e);
         }
@@ -123,16 +120,16 @@ namespace GoldMidiPlayer
         {
             DialControl dialControl = sender as DialControl;
             int channel = GetChannel(dialControl);
-            if (bassManager != null)
-                bassManager.SetChannelReverb(channel, dialControl.Angle);
+            if (mainPage.bassManager != null)
+                mainPage.bassManager.SetChannelReverb(channel, dialControl.Angle);
         }
 
         private void SetChannelChorus(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             DialControl dialControl = sender as DialControl;
             int channel = GetChannel(dialControl);
-            if (bassManager != null)
-                bassManager.SetChannelChorus(channel, dialControl.Angle);
+            if (mainPage.bassManager != null)
+                mainPage.bassManager.SetChannelChorus(channel, dialControl.Angle);
         }
 
         private int GetChannel(Control control)
@@ -147,8 +144,8 @@ namespace GoldMidiPlayer
         {
             DialControl dialControl = sender as DialControl;
             int channel = GetChannel(dialControl);
-            if (bassManager != null)
-                bassManager.SetChannelPan(channel, dialControl.Angle);
+            if (mainPage.bassManager != null)
+                mainPage.bassManager.SetChannelPan(channel, dialControl.Angle);
         }
 
         private void SetChannelVolume(object sender, RangeBaseValueChangedEventArgs e)
@@ -156,13 +153,13 @@ namespace GoldMidiPlayer
             Slider slider = sender as Slider;
             int channel = GetChannel(slider);
             bool enabled = false;
-            if (currentFile != null)
+            if (mainPage.CurrentFile != null)
             {
-                if (channel < currentFile.ChannelsVolume.Count)
+                if (channel < mainPage.CurrentFile.ChannelsVolume.Count)
                 {
-                    currentFile.ChannelsVolume[channel] = (int)slider.Value;
-                    if (bassManager != null)
-                        bassManager.SetChannelVolume(channel, slider.Value);
+                    mainPage.CurrentFile.ChannelsVolume[channel] = (int)slider.Value;
+                    if (mainPage.bassManager != null)
+                        mainPage.bassManager.SetChannelVolume(channel, slider.Value);
                     enabled = true;
                 }
             }
@@ -197,11 +194,11 @@ namespace GoldMidiPlayer
             };
             ToggleButton tb = sender as ToggleButton;
             int channel = GetChannel(tb);
-            if (currentFile != null)
-                bassManager.SetChannelSolo(channel, channelsStatus);
+            if (mainPage.CurrentFile != null)
+                mainPage.bassManager.SetChannelSolo(channel, channelsStatus);
         }
 
-        private void ToggleProgramControl(object sender, RoutedEventArgs e)
+        private async void ToggleProgramControl(object sender, RoutedEventArgs e)
         {
             ToggleButton[] programButtons = new ToggleButton[16]
             {
@@ -226,6 +223,10 @@ namespace GoldMidiPlayer
             int channel = GetChannel(tb);
             if (tb.IsChecked == true)
             {
+                await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    mainPage.ShowWindow(typeof(InstrumentPage), tb);
+                });
                 //ProgramList.Visibility = Visibility.Visible;
                 currentTbChannelProgram = tb;
                 for (int i = 0; i < programButtons.Length; i++)
@@ -238,6 +239,10 @@ namespace GoldMidiPlayer
             }
             else
             {
+                await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    mainPage.CloseWindow(InstrumentPage.window);
+                });
                 //ProgramList.Visibility = Visibility.Collapsed;
                 currentTbChannelProgram = null;
             }
@@ -248,7 +253,7 @@ namespace GoldMidiPlayer
         {
             ListView lv = sender as ListView;
             int channel = GetChannel(currentTbChannelProgram);
-            bassManager.SetChannelProgram(channel, lv.SelectedIndex);
+            mainPage.bassManager.SetChannelProgram(channel, lv.SelectedIndex);
             var ProgramsList = lv.ItemsSource as List<ProgramsModel>;
             currentTbChannelProgram.Content = ProgramsList.ElementAt(lv.SelectedIndex).Name;
         }

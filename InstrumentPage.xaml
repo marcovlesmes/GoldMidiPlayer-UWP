@@ -5,7 +5,7 @@
     xmlns:local="using:GoldMidiPlayer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" >
     <Page.Background>
         <ImageBrush ImageSource="/Assets/Background.png" Stretch="UniformToFill"/>
     </Page.Background>
@@ -18,14 +18,20 @@
                 <ResourceDictionary Source="GoldMidiTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="ListViewItemProgram">
-                <Grid>
+                <Grid Background="#A5000000" BorderBrush="#FF59574D" BorderThickness="0,1,0,0" Padding="5,1,5,3">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"/>
-                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="15" />
                         <ColumnDefinition Width="400"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{Binding Program, Mode=OneWay}" FontSize="12" Foreground="White" HorizontalAlignment="Right" />
-                    <TextBlock Grid.Column="2" Text="{Binding Name, Mode=OneWay}" FontSize="12" Foreground="White" HorizontalAlignment="Stretch" />
+                    <Border Margin="5,0,0,0">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Assets/folder_icon.png" Stretch="Uniform"/>
+                        </Border.Background>
+                    </Border>
+                    <TextBlock Grid.Column="1" FontSize="12" Foreground="White" HorizontalAlignment="Right" />
+                    <TextBlock Grid.Column="3" Text="{Binding Name, Mode=OneWay}" FontSize="12" Foreground="White" HorizontalAlignment="Stretch" />
                 </Grid>
             </DataTemplate>
             <ResourceDictionary.ThemeDictionaries>
@@ -48,9 +54,11 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="ChannelText" Text="Channel 1" Foreground="White" Margin="5" />
-        <TextBlock x:Name="ProgramText" Grid.Column="1" Text="Celesta" Foreground="White" Margin="5" />
-        <ListView x:Name="CategoryList" ItemTemplate="{StaticResource ListViewItemProgram}" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Programs}" SelectionMode="Single" SelectionChanged="ChangeCategory" Margin="25,25,25,25" />
-        <ListView x:Name="ProgramList" ItemTemplate="{StaticResource ListViewItemProgram}" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Programs}" SelectionMode="Single" SelectionChanged="SetChannelProgram" Margin="25,25,25,25" />
+        <Border Background="#A5000000" Margin="5,5,0,5" BorderBrush="#888888" BorderThickness="0,1,0,0" />
+        <Border Grid.Column="1" Background="#A5000000" Margin="5,5,5,5" BorderBrush="#888888" BorderThickness="0,1,0,0" />
+        <TextBlock x:Name="ChannelText" Text="Channel 1" Foreground="White" Margin="10,8,0,0" />
+        <TextBlock x:Name="ProgramText" Grid.Column="1" Text="Celesta" Foreground="White" Margin="10,8,0,0" />
+        <ListView x:Name="CategoryList" ItemTemplate="{StaticResource ListViewItemProgram}" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Categories}" SelectionMode="Single" SelectionChanged="ChangeCategory" Margin="25,5,25,25" />
+        <ListView x:Name="ProgramList" ItemTemplate="{StaticResource ListViewItemProgram}" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding ActivePrograms}" SelectionMode="Single" SelectionChanged="SetChannelProgram" Margin="25,5,25,25" />
     </Grid>
 </Page>

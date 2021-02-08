@@ -5,7 +5,7 @@
     xmlns:local="using:GoldMidiPlayer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Width="800" MinHeight="200">
+    mc:Ignorable="d" >
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,7 +17,7 @@
         <local:MainPageData/>
     </Page.DataContext>
 
-    <Grid MaxHeight="200">
+    <Grid MinWidth="800" MaxHeight="200">
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/MainModule.png" />
         </Grid.Background>

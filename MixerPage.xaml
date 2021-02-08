@@ -5,8 +5,7 @@
     xmlns:local="using:GoldMidiPlayer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Width="800" >
+    mc:Ignorable="d" >
     <Page.Background>
         <SolidColorBrush Color="#FF202025" />
     </Page.Background>

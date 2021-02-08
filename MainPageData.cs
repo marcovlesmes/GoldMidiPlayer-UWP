@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Windows.Data.Xml.Dom;
 using Windows.Storage;
 
@@ -665,20 +666,62 @@ namespace GoldMidiPlayer
             set { _soloChannels[0] = value; }
         }
 
-        public List<ProgramsModel> Programs { get; set; }
+        public List<ProgramsModel> Programs { get; private set; }
+        public List<CategoryModel> Categories { get; private set; }
+        private List<ProgramsModel> _activePrograms;
+        public List<ProgramsModel> ActivePrograms
+        {
+            get
+            {
+                return _activePrograms;
+            }
+            set
+            {
+                _activePrograms = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ActivePrograms"));
+            }
+        }
+        public CategoryModel ActiveCategory { get; set; }
+
+        public void SetActivePrograms(int categoryIndex)
+        {
+            CategoryModel category = Categories.ElementAt(categoryIndex);
+            ActiveCategory = category;
+            ActivePrograms = Programs.GetRange(category.StartIndex, category.Count);
+        }
 
         public MainPageData()
         {
             Programs = new List<ProgramsModel>();
-            var gmFile = System.Xml.Linq.XDocument.Load(@"Assets\general_midi.xml");
-            System.Xml.Linq.XName rootName = "GENERAL-MIDI";
-            System.Xml.Linq.XName programsName = "PROGRAM";
-            var root = gmFile.Element(rootName);
-            var programs = root.Descendants(programsName);
-            foreach (System.Xml.Linq.XElement element in programs)
+            Categories = new List<CategoryModel>();
+
+            var gmFile = System.Xml.Linq.XDocument.Load(@"Assets\general_midi_category.xml");
+            XName rootName = "GENERAL-MIDI";
+            XName categoriesName = "CATEGORY";
+            XName programName = "PROGRAM";
+            XName categoryName = "NAME";
+
+            var xRoot = gmFile.Element(rootName);
+            var xCategories = xRoot.Descendants(categoriesName);
+
+            int programIndex = 0;
+            int categoryIndex = 0;
+            foreach (XElement category in xCategories)
             {
-                var childs = element.Descendants();
-                Programs.Add(new ProgramsModel(int.Parse(childs.ElementAt(0).Value), childs.ElementAt(1).Value));
+                var xName = category.Element(categoryName).Value;
+                int programByCategoryIndex = 0;
+                foreach (XElement program in category.Descendants(programName))
+                { 
+                    programByCategoryIndex += 1;
+                    var childs = program.Descendants();
+                    programIndex = int.Parse(childs.ElementAt(0).Value);
+                    Debug.WriteLine("Programa {0}, con index {2} de la categoria {1}", programByCategoryIndex, xName, programIndex);
+                    string program_name = childs.ElementAt(1).Value;
+                    Programs.Add(new ProgramsModel(programIndex, program_name));
+                }
+                var generalIndex = programIndex - programByCategoryIndex;
+                categoryIndex += 1;
+                Categories.Add(new CategoryModel(categoryIndex, xName.ToString(), generalIndex, programByCategoryIndex));
             }
         }
     }

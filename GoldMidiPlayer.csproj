@@ -127,6 +127,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CategoryModel.cs" />
     <Compile Include="DialControl.xaml.cs">
       <DependentUpon>DialControl.xaml</DependentUpon>
     </Compile>
@@ -187,6 +188,8 @@
     <Content Include="Assets\ButtonStopHover.png" />
     <Content Include="Assets\DialBase.png" />
     <Content Include="Assets\DialTop.png" />
+    <Content Include="Assets\folder_icon.png" />
+    <Content Include="Assets\general_midi_category.xml" />
     <Content Include="Assets\general_midi.xml" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
