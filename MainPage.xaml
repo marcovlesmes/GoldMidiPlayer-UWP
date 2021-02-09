@@ -318,16 +318,16 @@
                         <ImageBrush ImageSource="/Assets/ButtonStop.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="8" HorizontalAlignment="Center" Width="49" Height="27" Click="PlayMidi" >
-                    <Button.Background>
+                <ToggleButton Style="{StaticResource PlayButton}" x:Name="PlayButton" Grid.Column="8" HorizontalAlignment="Center" Width="49" Height="27" Click="PlayMidi">
+                    <ToggleButton.Background>
                         <ImageBrush ImageSource="/Assets/ButtonPlay.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Grid.Column="9" HorizontalAlignment="Center" Width="49" Height="27" Margin="0,0,-2,0" Click="PauseMidi">
-                    <Button.Background>
+                    </ToggleButton.Background>
+                </ToggleButton>
+                <ToggleButton Style="{StaticResource PauseToggleButtonStyle}" x:Name="PauseButton" Grid.Column="9" HorizontalAlignment="Center" Width="49" Height="27" Margin="0,0,-2,0" Click="PauseMidi">
+                    <ToggleButton.Background>
                         <ImageBrush ImageSource="/Assets/ButtonPause.png"/>
-                    </Button.Background>
-                </Button>
+                    </ToggleButton.Background>
+                </ToggleButton>
             </Grid>
         </StackPanel>
         <Grid Grid.Column="2" Margin="0,0,11,0">

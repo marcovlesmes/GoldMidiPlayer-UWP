@@ -141,27 +141,32 @@ namespace GoldMidiPlayer
         private void PlayMidi(object sender, RoutedEventArgs e)
         {
             bool IsPlaying = bassManager.Play();
-            
-            if (IsPlaying)
+            ToggleButton tb = sender as ToggleButton;
+
+            if (tb.IsChecked == false)
             {
-                TimeSpan interval = TimeSpan.FromSeconds(1);
-                RefreshCurrentPlaying = ThreadPoolTimer.CreatePeriodicTimer((source) =>
-                {
-                    // Update Midi position
-                    Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                        () =>
-                        {
+                PlayButton.IsChecked = true;
+                PauseButton.IsChecked = false;
+            }
+
+            PlayButton.IsEnabled = false;
+            TimeSpan interval = TimeSpan.FromSeconds(1);
+            RefreshCurrentPlaying = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            {
+                // Update Midi position
+                Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                    () =>
+                    {
                             // Update UI
                             if (bassManager.IsPlaying())
-                            {
-                                double Position = bassManager.GetMidiPosition();
-                                float MidiLenght = Utility.TimeToSeconds(MidiLenghtText.Text);
-                                double NewPosition = Utility.Linear((float)Position, 0f, MidiLenght, 0f, 100f);
-                                MidiPositionSlider.Value = Position;
-                            }
-                        });
-                }, interval);
-            }
+                        {
+                            double Position = bassManager.GetMidiPosition();
+                            float MidiLenght = Utility.TimeToSeconds(MidiLenghtText.Text);
+                            double NewPosition = Utility.Linear((float)Position, 0f, MidiLenght, 0f, 100f);
+                            MidiPositionSlider.Value = Position;
+                        }
+                    });
+            }, interval);
         }
 
         private async void OpenMidi(object sender, RoutedEventArgs e)
@@ -190,6 +195,9 @@ namespace GoldMidiPlayer
             {
                 RefreshCurrentPlaying.Cancel();
                 MidiPositionSlider.Value = 0;
+                PlayButton.IsEnabled = true;
+                PlayButton.IsChecked = false;
+                PauseButton.IsChecked = false;
             }
         }
 
@@ -199,6 +207,7 @@ namespace GoldMidiPlayer
             if (isPlaying)
             {
                 bassManager.Pause();
+                PlayButton.IsEnabled = true;
                 if (RefreshCurrentPlaying != null)
                     RefreshCurrentPlaying.Cancel();
             }
