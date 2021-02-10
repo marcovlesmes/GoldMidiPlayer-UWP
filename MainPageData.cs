@@ -715,7 +715,7 @@ namespace GoldMidiPlayer
                     programByCategoryIndex += 1;
                     var childs = program.Descendants();
                     programIndex = int.Parse(childs.ElementAt(0).Value);
-                    Debug.WriteLine("Programa {0}, con index {2} de la categoria {1}", programByCategoryIndex, xName, programIndex);
+                    // Debug.WriteLine("Programa {0}, con index {2} de la categoria {1}", programByCategoryIndex, xName, programIndex);
                     string program_name = childs.ElementAt(1).Value;
                     Programs.Add(new ProgramsModel(programIndex, program_name));
                 }

@@ -54,6 +54,7 @@
                     <ColumnDefinition Width="42"/>
                     <ColumnDefinition Width="42"/>
                     <ColumnDefinition Width="42"/>
+                    <ColumnDefinition Width="42"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="42" Height="42" Margin="0,12,0,0" Click="OpenMidi">
                     <Button.Resources>
@@ -168,6 +169,20 @@
                         <ImageBrush ImageSource="/Assets/ButtonSettings.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
+                <ToggleButton Grid.Column="9" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="OpenPlayListScreen">
+                    <ToggleButton.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonSettingsHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </ToggleButton.Resources>
+                    <ToggleButton.Background>
+                        <ImageBrush ImageSource="/Assets/SortPlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </ToggleButton.Background>
+                </ToggleButton>
             </Grid>
             <Grid Height="35">
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Height="35" Width="592" Margin="8,5,8,5" />

@@ -141,6 +141,9 @@
     <Compile Include="MixerPage.xaml.cs">
       <DependentUpon>MixerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlayList.xaml.cs">
+      <DependentUpon>PlayList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProgramsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -152,57 +155,45 @@
   <ItemGroup>
     <Content Include="Assets\AutoPlayButton.png" />
     <Content Include="Assets\AutoPlayButtonHover.png" />
-    <Content Include="Assets\AutoPlayButton_on.png" />
     <Content Include="Assets\BackInBlack.mid">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\ButtonFordward.png" />
     <Content Include="Assets\ButtonFordwardHover.png" />
-    <Content Include="Assets\ButtonFordward_on.png" />
     <Content Include="Assets\ButtonGM.png" />
     <Content Include="Assets\ButtonGMHover.png" />
     <Content Include="Assets\ButtonMixer.png" />
     <Content Include="Assets\ButtonMixerHover.png" />
-    <Content Include="Assets\ButtonMixer_on.png" />
     <Content Include="Assets\ButtonMp3.png" />
     <Content Include="Assets\ButtonMp3Hover.png" />
-    <Content Include="Assets\ButtonMp3_on.png" />
     <Content Include="Assets\ButtonNext.png" />
     <Content Include="Assets\ButtonNextHover.png" />
-    <Content Include="Assets\ButtonNext_on.png" />
     <Content Include="Assets\ButtonOpen.png" />
     <Content Include="Assets\ButtonOpenForeground.png" />
     <Content Include="Assets\ButtonOpenHover.png" />
-    <Content Include="Assets\ButtonOpen_on.png" />
     <Content Include="Assets\ButtonPause.png" />
     <Content Include="Assets\ButtonPauseHover.png" />
-    <Content Include="Assets\ButtonPause_on.png" />
     <Content Include="Assets\ButtonPiano.png" />
     <Content Include="Assets\ButtonPianoHover.png" />
-    <Content Include="Assets\ButtonPiano_on.png" />
     <Content Include="Assets\ButtonPlay.png" />
     <Content Include="Assets\ButtonPlayHover.png" />
-    <Content Include="Assets\ButtonPlay_on.png" />
     <Content Include="Assets\ButtonPrev.png" />
     <Content Include="Assets\ButtonPrevHover.png" />
-    <Content Include="Assets\ButtonPrev_on.png" />
     <Content Include="Assets\ButtonRewind.png" />
     <Content Include="Assets\ButtonRewindHover.png" />
-    <Content Include="Assets\ButtonRewind_on.png" />
     <Content Include="Assets\ButtonSave.png" />
     <Content Include="Assets\ButtonSaveHover.png" />
-    <Content Include="Assets\ButtonSave_on.png" />
     <Content Include="Assets\ButtonSettings.png" />
     <Content Include="Assets\ButtonSettingsHover.png" />
-    <Content Include="Assets\ButtonSettings_on.png" />
     <Content Include="Assets\ButtonSf2.png" />
     <Content Include="Assets\ButtonSf2Hover.png" />
-    <Content Include="Assets\ButtonSf2_on.png" />
     <Content Include="Assets\ButtonStop.png" />
     <Content Include="Assets\ButtonStopHover.png" />
-    <Content Include="Assets\ButtonStop_on.png" />
     <Content Include="Assets\DialBase.png" />
     <Content Include="Assets\DialTop.png" />
+    <Content Include="Assets\DownPlayListButton.png" />
+    <Content Include="Assets\EmptyPlayListButton.png" />
+    <Content Include="Assets\ErasePlayListButton.png" />
     <Content Include="Assets\folder_icon.png" />
     <Content Include="Assets\general_midi_category.xml" />
     <Content Include="Assets\general_midi.xml" />
@@ -212,17 +203,19 @@
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\MainModule.png" />
+    <Content Include="Assets\NewPlayListButton.png" />
+    <Content Include="Assets\RemovePlayListButton.png" />
+    <Content Include="Assets\RenamePlayListButton.png" />
     <Content Include="Assets\RepeatAllButton.png" />
     <Content Include="Assets\RepeatAllButtonHover.png" />
-    <Content Include="Assets\RepeatAllButton_on.png" />
     <Content Include="Assets\RepeatSongButton.png" />
     <Content Include="Assets\RepeatSongButtonHover.png" />
-    <Content Include="Assets\RepeatSongButton_on.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
     <Content Include="Assets\SmallTile.scale-200.png" />
     <Content Include="Assets\SmallTile.scale-400.png" />
+    <Content Include="Assets\SortPlayListButton.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
@@ -256,6 +249,7 @@
     <Content Include="Assets\StoreLogo.scale-400.png" />
     <Content Include="Assets\Thumb_Horizontal.png" />
     <Content Include="Assets\Thumb_Vertical.png" />
+    <Content Include="Assets\UpPlayListButton.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
@@ -336,6 +330,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MixerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlayList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

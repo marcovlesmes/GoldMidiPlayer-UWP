@@ -56,6 +56,7 @@ namespace GoldMidiPlayer
                 };
             try
             {
+                Debug.WriteLine("Is de Nuget Pakage");
                 await appWindow.TryShowAsync();
             }
             catch (Exception exception)
@@ -91,9 +92,9 @@ namespace GoldMidiPlayer
                 MidiLenghtText.Text = Utility.SecondsToTime(midiFile.Lenght);
                 if (MixerPage.window != null)
                 {
-                    await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
-                        CloseWindow(MixerPage.window);
+                        await CloseWindow(MixerPage.window);
                     });
                     await ShowWindow(typeof(MixerPage), MixerBtn);
                 }
@@ -151,14 +152,14 @@ namespace GoldMidiPlayer
 
             PlayButton.IsEnabled = false;
             TimeSpan interval = TimeSpan.FromSeconds(1);
-            RefreshCurrentPlaying = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            RefreshCurrentPlaying = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
             {
                 // Update Midi position
-                Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                await Dispatcher.RunAsync(CoreDispatcherPriority.High,
                     () =>
                     {
-                            // Update UI
-                            if (bassManager.IsPlaying())
+                        // Update UI
+                        if (bassManager.IsPlaying())
                         {
                             double Position = bassManager.GetMidiPosition();
                             float MidiLenght = Utility.TimeToSeconds(MidiLenghtText.Text);
@@ -246,6 +247,16 @@ namespace GoldMidiPlayer
                 int response = await bassManager.ExportMp3();
                 Debug.WriteLine(response);
             }
+        }
+
+        private async void OpenPlayListScreen(object sender, RoutedEventArgs e)
+        {
+            ToggleButton toggleButton = sender as ToggleButton;
+
+            if (toggleButton.IsChecked == true)
+                await ShowWindow(typeof(PlayList), toggleButton);
+            else
+                await CloseWindow(PlayList.window);
         }
     }
 }

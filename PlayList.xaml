@@ -1,0 +1,183 @@
+﻿<Page
+    x:Class="GoldMidiPlayer.PlayList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GoldMidiPlayer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="GoldMidiTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Page.DataContext>
+        <local:MainPageData/>
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/Background.png" />
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" Background="#A5000000" Padding="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Playlist" Foreground="White" FontSize="22" />
+            <Grid Grid.Row="1" HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="NewButton" Width="35" Height="40">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/NewPlayListHoverButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/NewPlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="RenameButton" Grid.Column="1" Width="35" Height="40">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/RenamePlayListHoverButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/RenamePlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="EraseButton" Grid.Column="2" Width="35" Height="40">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ErasePlayListHoverButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ErasePlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <ComboBox Style="{StaticResource PlayListComboBoxStyle}" Grid.Column="3" SelectionChanged="ColorComboBox_SelectionChanged" PlaceholderText="PlayList" Width="100">
+                    <x:String>Rock</x:String>
+                    <x:String>Metal</x:String>
+                    <x:String>Favorites</x:String>
+                    <x:String>Caffe Jazz</x:String>
+                </ComboBox>
+            </Grid>
+            <Grid Grid.Row="2" HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="UpButton" Width="35" Height="40">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/UpPlayListHoverButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/UpPlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="DownButton" Grid.Column="1" Width="35" Height="40">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/DownPlayListHoverButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/DownPlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="SortButton" Grid.Column="2" Width="35" Height="40">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/SortPlayListHoverButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/SortPlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="RemoveButton" Grid.Column="3" Width="35" Height="40">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/RemovePlayListHoverButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/RemovePlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="EmptyButton" Grid.Column="4" Width="35" Height="40">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Default">
+                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/EmptyPlayListHoverButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/EmptyPlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+            <ListView x:Name="PlaylistListView" Grid.Row="3">
+
+            </ListView>
+        </Grid>
+        
+    </Grid>
+</Page>

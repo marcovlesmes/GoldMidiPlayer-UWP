@@ -221,32 +221,39 @@ namespace GoldMidiPlayer
             };
             ToggleButton tb = sender as ToggleButton;
             int channel = GetChannel(tb);
-            if (tb.IsChecked == true)
+            currentTbChannelProgram = tb;
+            bool openWindow = false;
+            Debug.WriteLine("Start ToggleProgrammControl");
+            for (int i = 0; i < programButtons.Length; i++)
             {
-                await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                if (i != channel && programButtons[i].IsChecked == true)
                 {
-                    mainPage.ShowWindow(typeof(InstrumentPage), tb);
-                });
-                //ProgramList.Visibility = Visibility.Visible;
-                currentTbChannelProgram = tb;
-                for (int i = 0; i < programButtons.Length; i++)
-                {
-                    if (i != channel && programButtons[i].IsChecked == true)
-                    {
-                        programButtons[i].IsChecked = false;
-                    }
+                    programButtons[i].IsChecked = false;
+                    openWindow = true;
                 }
             }
-            else
+            Debug.WriteLine("ProgramButtons checked. [ Open Window: {0} ], [ tb.IsCheked: {1} ]", openWindow, tb.IsChecked);
+            if (openWindow || tb.IsChecked == false)
             {
-                await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                Debug.WriteLine("Closing WINDOW");
+                await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, async () =>
                 {
-                    mainPage.CloseWindow(InstrumentPage.window);
+                    await mainPage.CloseWindow(InstrumentPage.window);
                 });
-                //ProgramList.Visibility = Visibility.Collapsed;
                 currentTbChannelProgram = null;
             }
-                
+
+            if (tb.IsChecked == true)
+            {
+                Debug.WriteLine("Opening WINDOW");
+                await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
+                {
+                    Debug.WriteLine("MainPage?: {0}", mainPage);
+                    Debug.WriteLine(typeof(InstrumentPage));
+                    await mainPage.ShowWindow(typeof(InstrumentPage), tb);
+                    Debug.WriteLine("XP");
+                });
+            }
         }
 
         private void SetChannelProgram(object sender, SelectionChangedEventArgs e)
