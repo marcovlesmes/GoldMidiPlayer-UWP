@@ -24,29 +24,35 @@
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="9*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="1" Background="#A5000000" Padding="25">
+        <Grid Grid.Column="1" Background="#90000000" Margin="0,25,0,22" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="90" />
+                <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Text="Playlist" Foreground="White" FontSize="22" />
-            <Grid Grid.Row="1" HorizontalAlignment="Left">
+            <Border Grid.Row="2" BorderBrush="#FF5B5B5B" BorderThickness="0,1,1,0" Background="#1AF1F3C2" Margin="25,5,5,5"/>
+            <Border Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" BorderBrush="#FF5B5B5B" BorderThickness="0,1,1,0" Background="#1AF1F3C2" Margin="5,5,5,5"/>
+            <TextBlock Text="Playlist" Foreground="White" FontSize="22" Margin="25,22,0,0" />
+            <Grid Grid.Row="1" HorizontalAlignment="Left" Margin="25,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="NewButton" Width="35" Height="40">
+                <Button x:Name="NewButton" Width="45" Height="45" Click="NewPlaylist">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -60,7 +66,7 @@
                         <ImageBrush ImageSource="/Assets/NewPlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="RenameButton" Grid.Column="1" Width="35" Height="40">
+                <Button x:Name="RenameButton" Grid.Column="1" Width="45" Height="45" Click="EditPlaylist">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -74,7 +80,7 @@
                         <ImageBrush ImageSource="/Assets/RenamePlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="EraseButton" Grid.Column="2" Width="35" Height="40">
+                <Button x:Name="EraseButton" Grid.Column="2" Width="45" Height="45" Click="DeletePlaylist">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -88,14 +94,19 @@
                         <ImageBrush ImageSource="/Assets/ErasePlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <ComboBox Style="{StaticResource PlayListComboBoxStyle}" Grid.Column="3" SelectionChanged="ColorComboBox_SelectionChanged" PlaceholderText="PlayList" Width="100">
-                    <x:String>Rock</x:String>
-                    <x:String>Metal</x:String>
-                    <x:String>Favorites</x:String>
-                    <x:String>Caffe Jazz</x:String>
-                </ComboBox>
+                <TextBox x:Name="InputText" IsEnabled="False" Grid.Row="1" Grid.ColumnSpan="5" AutomationProperties.Name="simple TextBox" Width="230" Background="AliceBlue"/>
+                <Button x:Name="ConfirmNewButton" IsEnabled="False" Grid.Column="3" Width="45" Height="45" Click="AddPlaylist" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/ConfirmButton.png"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="CancelButton" IsEnabled="False" Grid.Column="4" Width="45" Height="45" Click="CancelAction" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Assets/CancelButton.png"/>
+                    </Button.Background>
+                </Button>
             </Grid>
-            <Grid Grid.Row="2" HorizontalAlignment="Left">
+            <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="5, 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -103,7 +114,8 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="UpButton" Width="35" Height="40">
+                
+                <Button x:Name="UpButton" Width="45" Height="45">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -117,7 +129,7 @@
                         <ImageBrush ImageSource="/Assets/UpPlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="DownButton" Grid.Column="1" Width="35" Height="40">
+                <Button x:Name="DownButton" Grid.Column="1" Width="45" Height="45">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -131,7 +143,7 @@
                         <ImageBrush ImageSource="/Assets/DownPlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="SortButton" Grid.Column="2" Width="35" Height="40">
+                <Button x:Name="SortButton" Grid.Column="2" Width="45" Height="45">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -145,7 +157,7 @@
                         <ImageBrush ImageSource="/Assets/SortPlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="RemoveButton" Grid.Column="3" Width="35" Height="40">
+                <Button x:Name="RemoveButton" Grid.Column="3" Width="45" Height="45">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -159,7 +171,7 @@
                         <ImageBrush ImageSource="/Assets/RemovePlayListButton.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="EmptyButton" Grid.Column="4" Width="35" Height="40">
+                <Button x:Name="EmptyButton" Grid.Column="4" Width="45" Height="45">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -174,10 +186,14 @@
                     </Button.Background>
                 </Button>
             </Grid>
-            <ListView x:Name="PlaylistListView" Grid.Row="3">
-
+            <ListView x:Name="PlaylistListView" Grid.Row="3" ItemsSource="{Binding PlaylistManager}" Margin="30,10,10,0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name }" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        
+
     </Grid>
 </Page>

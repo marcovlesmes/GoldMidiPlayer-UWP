@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -110,7 +111,7 @@ namespace GoldMidiPlayer
         }
 
         // CHANNEL VOLUME
-        private int[] _channelsVolume = new int[16] {127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127};
+        private int[] _channelsVolume = new int[16] { 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127 };
         private int[] _previusChannelsVolume = new int[16] { 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127, 127 };
 
 
@@ -666,6 +667,8 @@ namespace GoldMidiPlayer
             set { _soloChannels[0] = value; }
         }
 
+
+
         public List<ProgramsModel> Programs { get; private set; }
         public List<CategoryModel> Categories { get; private set; }
         private List<ProgramsModel> _activePrograms;
@@ -690,8 +693,89 @@ namespace GoldMidiPlayer
             ActivePrograms = Programs.GetRange(category.StartIndex, category.Count);
         }
 
+        private List<PlaylistModel> _playlistManager;
+        
+        public Array PlaylistManager
+        {
+            get
+            {
+                return _playlistManager.ToArray();
+            }
+            set
+            {
+                Array playlistToSet = (Array)value;
+                _playlistManager = playlistToSet.OfType<PlaylistModel>().ToList();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PlaylistManager"));
+            }
+        }
+        
+        private PlaylistModel _activePlaylist = new PlaylistModel("", new List<MidiFile>());
+        public PlaylistModel ActivePlaylist
+        {
+            get
+            {
+                return _activePlaylist;
+            }
+            private set
+            {
+                _activePlaylist = value;
+            }
+        }
+
+        public void SetPlaylist(PlaylistModel playlist)
+        {
+            Debug.WriteLine("Playlist Name: {0} :: Playlist Songs: {1}", playlist.Name, playlist.Songs.Count);
+            
+            if (_playlistManager.Contains(playlist))
+            {
+                Debug.WriteLine("Contiene playlist con el mismo nombre");
+                _playlistManager.Remove(playlist);
+            }
+            Debug.WriteLine("Añadiendo nueva ActivePlaylist");
+            ActivePlaylist = playlist;
+            _playlistManager.Add(playlist);
+            PlaylistManager = _playlistManager.ToArray();
+            Debug.WriteLine("Finalizado metodo SetPlaylist. Playlist.Count: {0}", _playlistManager.Count);
+            Debug.WriteLine("Active Playlist: {0} with {1} songs.", ActivePlaylist.Name, ActivePlaylist.Songs.Count);
+        }
+
+        public PlaylistModel GetPlaylist(string playlistName)
+        {
+            PlaylistModel playlistFinded = null;
+            //Debug.WriteLine("Playlis Foreach [ NameToFind: {0} ] [ PlaylistsCount: {1} ]", playlistName, PlaylistManager.Count);
+            foreach (PlaylistModel playlist in PlaylistManager)
+            {
+                Debug.WriteLine("playlist.Name: {0}, {1} :playlistName", playlist.Name, playlistName);
+                if (playlist.Name == playlistName)
+                {
+                    Debug.WriteLine("Coincidencia encontrada en MainPageData.GetPlaylist");
+                    playlistFinded = playlist;
+                    break;
+                }
+            }
+            return playlistFinded;
+        }
+
+        public void RemovePlayList(PlaylistModel playlist)
+        {
+            Debug.WriteLine("Deleting Playlist NAME [{0}] | ActivePlayList: [{1}]", playlist.Name, ActivePlaylist.Name);
+            if (playlist == ActivePlaylist)
+            {
+                _playlistManager.Remove(playlist);
+                PlaylistManager = _playlistManager.ToArray();
+                Debug.WriteLine("RemovePlaylist Ended");
+            }
+        }
+
+        MidiFile ActiveMidiFile;
+
         public MainPageData()
         {
+            List<MidiFile> midiFiles = new List<MidiFile>();
+            List<PlaylistModel> playlists = new List<PlaylistModel>();
+            PlaylistModel init_playlist = new PlaylistModel("Rock", midiFiles);
+            playlists.Add(init_playlist);
+            PlaylistManager = playlists.ToArray();
             Programs = new List<ProgramsModel>();
             Categories = new List<CategoryModel>();
 

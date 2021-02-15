@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -45,9 +46,80 @@ namespace GoldMidiPlayer
             base.OnNavigatedTo(e);
         }
 
-        private void ColorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void NewPlaylist(object sender, RoutedEventArgs e)
         {
-            return;
+            InputText.Focus(FocusState.Pointer);
+            this.ToggleWriteState();
+        }
+
+        private void AddPlaylist(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            MainPageData dataContext = button.DataContext as MainPageData;
+            string playlistName = InputText.Text;
+
+            if (!Utility.IsStringEmpty(playlistName))
+            {
+                Debug.WriteLine("Adding playlist");
+                PlaylistModel playlist = new PlaylistModel(playlistName, new List<MidiFile>());
+                dataContext.SetPlaylist(playlist);
+                Debug.WriteLine("Actualizando dataContext");
+                this.DataContext = dataContext;
+            }
+            this.ToggleWriteState();
+            InputText.Text = string.Empty;
+        }
+
+        private void EditPlaylist(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            MainPageData dataContext = button.DataContext as MainPageData;
+        }
+
+        private void DeletePlaylist(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            MainPageData dataContext = button.DataContext as MainPageData;
+            var selectedItem = PlaylistListView.SelectedItem;
+            if (selectedItem != null)
+            {
+                PlaylistModel playlist = dataContext.GetPlaylist(selectedItem.ToString());
+                if (playlist != null)
+                    dataContext.RemovePlayList(playlist);
+
+            }
+        }
+
+        private void ToggleWriteState()
+        {
+            ConfirmNewButton.IsEnabled = ConfirmNewButton.IsEnabled ? false : true;
+            CancelButton.IsEnabled = CancelButton.IsEnabled ? false : true;
+            InputText.IsEnabled = InputText.IsEnabled ? false : true;
+            NewButton.IsEnabled = NewButton.IsEnabled ? false : true;
+            RenameButton.IsEnabled = RenameButton.IsEnabled ? false : true;
+            EraseButton.IsEnabled = EraseButton.IsEnabled ? false : true;
+            PlaylistListView.IsEnabled = PlaylistListView.IsEnabled ? false : true;
+        }
+
+        private void SetActivePlaylist(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox button = sender as ComboBox;
+            MainPageData dataContext = button.DataContext as MainPageData;
+            var selectedItem = PlaylistListView.SelectedItem;
+            if (selectedItem != null)
+            {
+                PlaylistModel playlist = dataContext.GetPlaylist(selectedItem.ToString());
+                if (playlist != null)
+                    dataContext.SetPlaylist(playlist);
+            }
+            
+        }
+
+        private void CancelAction(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            MainPageData dataContext = button.DataContext as MainPageData;
+            this.ToggleWriteState();
         }
     }
 }
