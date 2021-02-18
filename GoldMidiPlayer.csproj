@@ -134,6 +134,7 @@
     <Compile Include="InstrumentPage.xaml.cs">
       <DependentUpon>InstrumentPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainModule.cs" />
     <Compile Include="MainPageData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

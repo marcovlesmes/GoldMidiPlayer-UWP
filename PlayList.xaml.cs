@@ -103,14 +103,14 @@ namespace GoldMidiPlayer
 
         private void SetActivePlaylist(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox button = sender as ComboBox;
-            MainPageData dataContext = button.DataContext as MainPageData;
-            var selectedItem = PlaylistListView.SelectedItem;
+            ListView listView = sender as ListView;
+            MainPageData dataContext = listView.DataContext as MainPageData;
+            PlaylistModel selectedItem = listView.SelectedItem as PlaylistModel;
             if (selectedItem != null)
             {
-                PlaylistModel playlist = dataContext.GetPlaylist(selectedItem.ToString());
+                PlaylistModel playlist = dataContext.GetPlaylist(selectedItem.Name.ToString());
                 if (playlist != null)
-                    dataContext.SetPlaylist(playlist);
+                    dataContext.ChangePlaylist(playlist);
             }
             
         }

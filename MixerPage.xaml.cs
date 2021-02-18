@@ -37,8 +37,6 @@ namespace GoldMidiPlayer
             {
                 mainPage = e.Parameter as MainPage;
                 // appWindow = mainPage.appWindow as AppWindow;
-                if (mainPage.CurrentFile != null)
-                    RefreshMixerScreen(mainPage.CurrentFile);
             }
             base.OnNavigatedTo(e);
         }

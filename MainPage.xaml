@@ -17,7 +17,7 @@
         <local:MainPageData/>
     </Page.DataContext>
 
-    <Grid MinWidth="800" MaxHeight="200">
+    <Grid Width="800" MaxHeight="200">
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/MainModule.png" />
         </Grid.Background>
@@ -38,9 +38,9 @@
             </Grid.RowDefinitions>
             <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="1" Text="VOL" />
             <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="1" Width="41" Height="29" />
-            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalVolText" Grid.Row="1" Grid.Column="1" Text="{Binding GlobalVolumeText}" />
+            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalVolText" Grid.Row="1" Grid.Column="1" Text="{x:Bind MainModule.GlobalVolume, Mode=OneWay}" />
             <Border Grid.Row="2" Grid.Column="1" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="135" />
-            <Slider x:Name="GlobalVolumeSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Orientation="Vertical" Maximum="127" Margin="0,5,0,10" HorizontalAlignment="Center" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="127" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalVolume" SmallChange="1" Value="{Binding GlobalVolume, Mode=TwoWay, UpdateSourceTrigger=Default}" />
+            <Slider x:Name="GlobalVolumeSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Orientation="Vertical" Maximum="127" Margin="0,5,0,10" HorizontalAlignment="Center" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="127" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalVolume" SmallChange="1" Value="{x:Bind MainModule.GlobalVolume, Mode=TwoWay}" />
         </Grid>
         <StackPanel Grid.Column="1" Grid.Row="4">
             <Grid Height="54">
@@ -186,7 +186,7 @@
             </Grid>
             <Grid Height="35">
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Height="35" Width="592" Margin="8,5,8,5" />
-                <TextBlock x:Name="MidiNameText" Style="{StaticResource TextBlockFieldPrint}" HorizontalAlignment="Left" Margin="22,0,0,0" Text="{Binding MidiName}" />
+                <TextBlock x:Name="MidiNameText" Style="{StaticResource TextBlockFieldPrint}" HorizontalAlignment="Left" Margin="22,0,0,0" Text="{x:Bind MainModule.DisplayName, Mode=OneWay}" />
             </Grid>
             <Grid Height="35">
                 <Grid.ColumnDefinitions>
@@ -200,13 +200,13 @@
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="1" Margin="1,5,1,5" Width="54" Height="35" />
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="2" Margin="1,5,1,5" Height="35" Width="56" />
                 <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="0" HorizontalAlignment="Left" Margin="22,0,0,0" Text="KEY" />
-                <TextBlock x:Name="MidiTimeSignatureText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="1" Text="4/4" FontSize="14" />
-                <TextBlock x:Name="MidiCurrentTimeText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="2" Text="{Binding CurrentMidiPositionText}" />
+                <TextBlock x:Name="MidiTimeSignatureText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="1" Text="{x:Bind MainModule.DisplayKey, Mode=OneWay}" FontSize="14" />
+                <TextBlock x:Name="MidiCurrentTimeText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="2" Text="{x:Bind MainModule.PositionInTimeToString, Mode=OneWay}" />
                 <Border Grid.Column="3" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Width="214" Height="30" Margin="1,1,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" />
                 <Border Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Width="207" Height="24" Margin="1,1,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" />
-                <Slider x:Name="MidiPositionSlider" Style="{StaticResource SliderGM}" Grid.Column="3" Maximum="100" Margin="10,0,10,0" Value="{Binding CurrentMidiPosition, Mode=TwoWay, UpdateSourceTrigger=Default}" />
+                <Slider x:Name="MidiPositionSlider" Style="{StaticResource SliderGM}" Grid.Column="3" Maximum="{x:Bind MainModule.MidiLenght, Mode=OneWay}" Margin="10,0,10,0" Value="{x:Bind MainModule.PositionInTime, Mode=OneWay}" />
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="4" Margin="1,4,8,5" Height="35" Width="53" />
-                <TextBlock x:Name="MidiLenghtText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="4" Text="{Binding MidiLenghtText, Mode=TwoWay, UpdateSourceTrigger=Default}" Margin="0,0,5,0" />
+                <TextBlock x:Name="MidiLenghtText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="4" Text="{x:Bind MainModule.MidiLenghtToString, Mode=OneWay}" Margin="0,0,5,0" />
             </Grid>
             <Grid Height="27">
                 <Grid.ColumnDefinitions>
@@ -221,8 +221,8 @@
                     <ColumnDefinition Width="0.58*"/>
                     <ColumnDefinition Width="0.58*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" HorizontalAlignment="Center" Height="27" Width="84" >
-                    <Button.Resources>
+                <ToggleButton x:Name="AutoplayButton" Grid.Column="0" HorizontalAlignment="Center" Height="27" Width="84" >
+                    <ToggleButton.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
                                 <ResourceDictionary x:Key="Default">
@@ -230,13 +230,13 @@
                                 </ResourceDictionary>
                             </ResourceDictionary.ThemeDictionaries>
                         </ResourceDictionary>
-                    </Button.Resources>
-                    <Button.Background>
+                    </ToggleButton.Resources>
+                    <ToggleButton.Background>
                         <ImageBrush ImageSource="/Assets/AutoPlayButton.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Grid.Column="1" HorizontalAlignment="Center" Height="27" Width="84" >
-                    <Button.Resources>
+                    </ToggleButton.Background>
+                </ToggleButton>
+                <ToggleButton x:Name="RepeatAllButton" Grid.Column="1" HorizontalAlignment="Center" Height="27" Width="84" >
+                    <ToggleButton.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
                                 <ResourceDictionary x:Key="Default">
@@ -244,13 +244,13 @@
                                 </ResourceDictionary>
                             </ResourceDictionary.ThemeDictionaries>
                         </ResourceDictionary>
-                    </Button.Resources>
-                    <Button.Background>
+                    </ToggleButton.Resources>
+                    <ToggleButton.Background>
                         <ImageBrush ImageSource="/Assets/RepeatAllButton.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Grid.Column="2" HorizontalAlignment="Center" Height="27" Width="84" >
-                    <Button.Resources>
+                    </ToggleButton.Background>
+                </ToggleButton>
+                <ToggleButton x:Name="RepeatSongButton" Grid.Column="2" HorizontalAlignment="Center" Height="27" Width="84" >
+                    <ToggleButton.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
                                 <ResourceDictionary x:Key="Default">
@@ -258,12 +258,12 @@
                                 </ResourceDictionary>
                             </ResourceDictionary.ThemeDictionaries>
                         </ResourceDictionary>
-                    </Button.Resources>
-                    <Button.Background>
+                    </ToggleButton.Resources>
+                    <ToggleButton.Background>
                         <ImageBrush ImageSource="/Assets/RepeatSongButton.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Grid.Column="3" HorizontalAlignment="Center" Width="49" Height="27" >
+                    </ToggleButton.Background>
+                </ToggleButton>
+                <Button x:Name="PreviusButton" Grid.Column="3" HorizontalAlignment="Center" Width="49" Height="27" >
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -277,7 +277,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonPrev.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="4" HorizontalAlignment="Center" Width="49" Height="27" >
+                <Button x:Name="RewindButton" Grid.Column="4" HorizontalAlignment="Center" Width="49" Height="27" Click="Rewind" >
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -291,7 +291,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonRewind.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="5" HorizontalAlignment="Center" Width="49" Height="27" >
+                <Button x:Name="ForwardButton" Grid.Column="5" HorizontalAlignment="Center" Width="49" Height="27" Click="Forward">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -305,7 +305,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonFordward.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="6" HorizontalAlignment="Center" Width="49" Height="27" >
+                <Button x:Name="NextButton" Grid.Column="6" HorizontalAlignment="Center" Width="49" Height="27" >
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -319,7 +319,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonNext.png"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="7" HorizontalAlignment="Center" Width="49" Height="27" Click="StopMidi" >
+                <Button x:Name="StopButton" Grid.Column="7" HorizontalAlignment="Center" Width="49" Height="27" Click="StopMidi" >
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -357,14 +357,14 @@
             </Grid.RowDefinitions>
             <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="0" Text="PITCH" />
             <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="0" Height="27" Width="29" />
-            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalPitchText" Grid.Row="1" Grid.Column="0" Text="{Binding GlobalPitchText}" />
+            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalPitchText" Grid.Row="1" Grid.Column="0" Text="{x:Bind MainModule.GlobalPitch, Mode=OneWay}" />
             <Border Grid.Row="3" Grid.Column="0" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,0" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="135" />
-            <Slider x:Name="GlobalPitchSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="0" Foreground="#ffab28" Background="#FF071215" Maximum="12" Margin="0,5,0,10" Orientation="Vertical" HorizontalAlignment="Center"  AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="127" TickPlacement="Outside" TickFrequency="1" Minimum="-12" SmallChange="1" ValueChanged="SetGlobalPitch" Value="{Binding GlobalPitch, Mode=TwoWay, UpdateSourceTrigger=Default}"/>
+            <Slider x:Name="GlobalPitchSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="0" Foreground="#ffab28" Background="#FF071215" Maximum="12" Margin="0,5,0,10" Orientation="Vertical" HorizontalAlignment="Center"  AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="127" TickPlacement="Outside" TickFrequency="1" Minimum="-12" SmallChange="1" ValueChanged="SetGlobalPitch" Value="{x:Bind Path=MainModule.GlobalPitch, Mode=TwoWay}"/>
             <TextBlock Style="{StaticResource TextWhiteControl}" Grid.Row="0" Grid.Column="1" Text="TEMPO" />
             <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Row="1" Grid.Column="1" Width="29" Height="29" />
-            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalTempoText" Grid.Row="1" Grid.Column="1" Text="{Binding GlobalTempoText}" />
+            <TextBlock Style="{StaticResource TextBlockFieldPrint}" x:Name="GlobalTempoText" Grid.Row="1" Grid.Column="1" Text="{x:Bind MainModule.GlobalTempo, Mode=OneWay}" />
             <Border Grid.Row="3" Grid.Column="1" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Margin="1,0,1,0" BorderBrush="#0b1012" BorderThickness="1,1,1,1" Width="33" Height="135" />
-            <Slider x:Name="GlobalTempoSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Foreground="#ffab28" Background="#FF071215" Maximum="140" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,10" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="127" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalTempo" Value="{Binding GlobalTempo, Mode=TwoWay, UpdateSourceTrigger=Default}" Minimum="60" SmallChange="1"/>
+            <Slider x:Name="GlobalTempoSlider" Style="{StaticResource SliderGM}" Grid.Row="3" Grid.Column="1" Foreground="#ffab28" Background="#FF071215" Maximum="140" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,10" AutomationProperties.Name="Slider with ticks" VerticalAlignment="Bottom" Height="127" TickPlacement="Outside" TickFrequency="1" ValueChanged="SetGlobalTempo" Value="{x:Bind MainModule.GlobalTempo, Mode=TwoWay}" Minimum="60" SmallChange="1"/>
         </Grid>
     </Grid> 
 </Page>

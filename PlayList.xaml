@@ -114,8 +114,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
-                <Button x:Name="UpButton" Width="45" Height="45">
+                <Button Grid.Column="0" x:Name="UpButton" Width="45" Height="45">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -186,10 +185,17 @@
                     </Button.Background>
                 </Button>
             </Grid>
-            <ListView x:Name="PlaylistListView" Grid.Row="3" ItemsSource="{Binding PlaylistManager}" Margin="30,10,10,0">
+            <ListView x:Name="PlaylistListView" Grid.Row="3" ItemsSource="{Binding PlaylistManager}" SelectionChanged="SetActivePlaylist" Margin="30,10,10,0">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name }" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView x:Name="MidiFilesListView" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="Hola" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

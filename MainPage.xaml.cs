@@ -31,12 +31,23 @@ namespace GoldMidiPlayer
         public static Dictionary<UIContext, AppWindow> appWindows = new Dictionary<UIContext, AppWindow>();
 
         private ThreadPoolTimer RefreshCurrentPlaying;
+        public MainModule MainModule;
         public BassManager bassManager = new BassManager();
         public MidiFile CurrentFile;
+        private States state
+        {
+            get { return MainModule.state; }
+            set
+            {
+                MainModule.state = value;
+                UpdateState();
+            }
+        }
 
         public MainPage()
         {
             this.InitializeComponent();
+            MainModule = new MainModule();
         }
 
         public async Task<bool> ShowWindow(Type type, ToggleButton toggleButton)
@@ -70,37 +81,6 @@ namespace GoldMidiPlayer
         {
             await window.CloseAsync();
             return true;
-        }
-
-        private async void RefreshMainScreen(MidiFile midiFile)
-        {
-            if (midiFile != null)
-            {
-                GlobalVolumeSlider.Value = midiFile.GlobalVolume;
-                GlobalTempoSlider.Value = midiFile.GlobalTempo;
-                GlobalPitchSlider.Value = 0;
-                MidiPositionSlider.Value = 0;
-                MidiNameText.Text = midiFile.Name;
-                MidiTimeSignatureText.Text = midiFile.TimeSignatureAsString;
-                SolidColorBrush white = new SolidColorBrush(Colors.White);
-                MidiNameText.Foreground = white;
-                MidiCurrentTimeText.Foreground = white;
-                MidiTimeSignatureText.Foreground = white;
-                GlobalVolText.Foreground = white;
-                GlobalPitchText.Foreground = white;
-                GlobalTempoText.Foreground = white;
-                MidiLenghtText.Text = Utility.SecondsToTime(midiFile.Lenght);
-                if (MixerPage.window != null)
-                {
-                    await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
-                    {
-                        await CloseWindow(MixerPage.window);
-                    });
-                    await ShowWindow(typeof(MixerPage), MixerBtn);
-                }
-
-                //Debug.Write("MixerIsOpen: ", (MixerFrame.Content != null).ToString());
-            }
         }
 
         public void SetGlobalVolume(object sender, RangeBaseValueChangedEventArgs eventArgs)
@@ -161,10 +141,12 @@ namespace GoldMidiPlayer
                         // Update UI
                         if (bassManager.IsPlaying())
                         {
-                            double Position = bassManager.GetMidiPosition();
-                            float MidiLenght = Utility.TimeToSeconds(MidiLenghtText.Text);
-                            double NewPosition = Utility.Linear((float)Position, 0f, MidiLenght, 0f, 100f);
-                            MidiPositionSlider.Value = Position;
+                            MainModule.PositionInTime = bassManager.GetMidiPosition();
+                            bool CheckEndOfPlaying = bassManager.IsPlaying();
+                            if (!CheckEndOfPlaying)
+                            {
+                                RefreshCurrentPlaying.Cancel();
+                            }
                         }
                     });
             }, interval);
@@ -175,8 +157,16 @@ namespace GoldMidiPlayer
             try
             {
                 MidiFile midiFile = await bassManager.LoadFile();
-                CurrentFile = midiFile;
-                RefreshMainScreen(midiFile);
+                PlaylistModel playlist = MainModule.ActivePlaylist;
+                
+                if (playlist == null)
+                    MainModule.InitPlaylist();
+                
+                if (midiFile != null)
+                {
+                    MainModule.AddMidiFile(midiFile);
+                    state = States.Midi_loaded;
+                }
             }
             catch (Exception exep)
             {
@@ -184,9 +174,33 @@ namespace GoldMidiPlayer
             }
         }
 
+        private void UpdateState()
+        {
+            switch (MainModule.state)
+            {
+                case States.Idle:
+                    Debug.WriteLine("Updating to Idle");
+                    break;
+                case States.Midi_loaded:
+                    Debug.WriteLine("Uptading to Midi Loaded");
+                    break;
+                case States.Sound_font_loaded:
+                    Debug.WriteLine("Updating to SoundFont Loaded");
+                    break;
+                case States.All_loaded:
+                    Debug.WriteLine("Updating to All Loaded!");
+                    break;
+                default:
+                    Debug.WriteLine("Dont exist this state tin UpdateState from MainPage");
+                    break;
+            }
+        }
+
         private async void OpenFont(object sender, RoutedEventArgs e)
         {
-            await bassManager.LoadFonts();
+            bool success = await bassManager.LoadFonts();
+            if (success)
+                state = States.Sound_font_loaded;
         }
 
         private void StopMidi(object sender, RoutedEventArgs e)
@@ -242,11 +256,8 @@ namespace GoldMidiPlayer
 
         private async void ExportMp3(object sender, RoutedEventArgs e)
         {
-            if (CurrentFile != null)
-            {
-                int response = await bassManager.ExportMp3();
-                Debug.WriteLine(response);
-            }
+            int response = await bassManager.ExportMp3();
+            Debug.WriteLine(response);
         }
 
         private async void OpenPlayListScreen(object sender, RoutedEventArgs e)
@@ -257,6 +268,20 @@ namespace GoldMidiPlayer
                 await ShowWindow(typeof(PlayList), toggleButton);
             else
                 await CloseWindow(PlayList.window);
+        }
+
+        private void Rewind(object sender, RoutedEventArgs e)
+        {
+            bool isPlaying = bassManager.IsPlaying();
+            if (isPlaying)
+                MainModule.PositionInTime = bassManager.Rewind();
+        }
+
+        private void Forward(object sender, RoutedEventArgs e)
+        {
+            bool isPlaying = bassManager.IsPlaying();
+            if (isPlaying)
+                MainModule.PositionInTime = bassManager.Forward();
         }
     }
 }

@@ -716,7 +716,7 @@ namespace GoldMidiPlayer
             {
                 return _activePlaylist;
             }
-            private set
+            set
             {
                 _activePlaylist = value;
             }
@@ -737,6 +737,15 @@ namespace GoldMidiPlayer
             PlaylistManager = _playlistManager.ToArray();
             Debug.WriteLine("Finalizado metodo SetPlaylist. Playlist.Count: {0}", _playlistManager.Count);
             Debug.WriteLine("Active Playlist: {0} with {1} songs.", ActivePlaylist.Name, ActivePlaylist.Songs.Count);
+        }
+
+        public void ChangePlaylist(PlaylistModel playlist)
+        {
+            if (_playlistManager.Contains(playlist))
+            {
+                Debug.WriteLine("Cambiando Playlist {0} con {1} canciones.", playlist.Name, playlist.Songs.Count);
+                ActivePlaylist = playlist;
+            }
         }
 
         public PlaylistModel GetPlaylist(string playlistName)
@@ -767,18 +776,30 @@ namespace GoldMidiPlayer
             }
         }
 
+        internal void AddMidiToPlaylist(MidiFile midiFile)
+        {
+            PlaylistModel playlist = ActivePlaylist as PlaylistModel;
+            if (playlist != null)
+            {
+                PlaylistModel editingPlaylist = GetPlaylist(playlist.Name);
+                editingPlaylist.Songs.Add(midiFile);
+                SetPlaylist(editingPlaylist);
+            }
+            Debug.WriteLine("Playlist count after add: {0}", ActivePlaylist.Songs.Count);
+        }
+
         MidiFile ActiveMidiFile;
 
         public MainPageData()
         {
             List<MidiFile> midiFiles = new List<MidiFile>();
             List<PlaylistModel> playlists = new List<PlaylistModel>();
-            PlaylistModel init_playlist = new PlaylistModel("Rock", midiFiles);
+            PlaylistModel init_playlist = new PlaylistModel("Default", midiFiles);
+            ActivePlaylist = init_playlist;
             playlists.Add(init_playlist);
             PlaylistManager = playlists.ToArray();
             Programs = new List<ProgramsModel>();
             Categories = new List<CategoryModel>();
-
             var gmFile = System.Xml.Linq.XDocument.Load(@"Assets\general_midi_category.xml");
             XName rootName = "GENERAL-MIDI";
             XName categoriesName = "CATEGORY";
