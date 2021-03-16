@@ -44,11 +44,22 @@ namespace GoldMidiPlayer
         private void MixerPage_Loaded(object sender, RoutedEventArgs e)
         {
             window = MainPage.appWindows[this.UIContext];
+            //RefreshMixerScreen(mainPage.GetMainModule().GetMidiFile());
         }
 
         public void RefreshMixerScreen(MidiFile midiFile)
         {
-            // VolCh0Text.Text = midiFile.ChannelsVolume.ElementAtOrDefault<int>(0).ToString();
+            Slider[] sliders = new Slider[16] { VolCh0, VolCh1, VolCh2, VolCh3, VolCh4, VolCh5, VolCh6, VolCh7, VolCh8, VolCh9, VolCh10, VolCh11, VolCh12, VolCh13, VolCh14, VolCh15 };
+            for (int i = 0; i < midiFile.ChannelsVolume.Count; i++)
+            {
+                Debug.WriteLine("Valor volumen {0}", midiFile.ChannelsVolume.ElementAt(i));
+                Slider currentSlider = sliders.ElementAt(i);
+                currentSlider.IsEnabled = true;
+                currentSlider.Value = midiFile.ChannelsVolume.ElementAt(i);
+            }
+            
+            VolCh0.IsEnabled = true;
+            VolCh0Text.Text = midiFile.ChannelsVolume.ElementAtOrDefault<int>(0).ToString();
             PanCh0.Angle = Utility.ValueToRotationKnob(midiFile.ChannelsPan.ElementAtOrDefault<int>(0));
             ReverbCh0.Angle = Utility.ValueToRotationKnob(midiFile.ChannelsReverb.ElementAtOrDefault<int>(0));
             ChorusCh0.Angle = Utility.ValueToRotationKnob(midiFile.ChannelsChorus.ElementAtOrDefault<int>(0));

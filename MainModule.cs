@@ -23,20 +23,13 @@ public class MainModule : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         #region MAIN VIEW VALUES
-        private States _state = States.Idle;
+        private States _state;
         public States state
         {
             get { return _state; }
             set
             {
-                if (_state == States.Idle)
-                {
-                    _state = value;
-                }
-                else
-                {
-                    _state = States.All_loaded;
-                }
+                _state = value;
             }
         }
         private int _globalVolume;
@@ -153,10 +146,15 @@ public class MainModule : INotifyPropertyChanged
 
         internal void AddMidiFile(MidiFile midiFile)
         {
-            ActivePlaylist.Songs.Add(midiFile);
+            ActivePlaylist.AddSong(midiFile);
             DisplayName = midiFile.Name;
             DisplayKey = midiFile.TimeSignatureAsString;
             MidiLenght = midiFile.Lenght;
+        }
+
+        public MidiFile GetMidiFile()
+        {
+            return ActivePlaylist.GetCurrentSong();
         }
         #endregion
     }

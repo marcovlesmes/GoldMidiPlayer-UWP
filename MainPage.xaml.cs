@@ -34,6 +34,11 @@ namespace GoldMidiPlayer
         public MainModule MainModule;
         public BassManager bassManager = new BassManager();
         public MidiFile CurrentFile;
+        #region STYLES VARIABLES
+        SolidColorBrush PrimaryColorText = new SolidColorBrush(Colors.White);
+        SolidColorBrush SecondaryColorText = new SolidColorBrush(Colors.DarkSlateGray);
+        #endregion
+
         private States state
         {
             get { return MainModule.state; }
@@ -48,6 +53,14 @@ namespace GoldMidiPlayer
         {
             this.InitializeComponent();
             MainModule = new MainModule();
+            state = States.Idle;
+
+
+        }
+
+        public MainModule GetMainModule()
+        {
+            return this.MainModule;
         }
 
         public async Task<bool> ShowWindow(Type type, ToggleButton toggleButton)
@@ -72,6 +85,7 @@ namespace GoldMidiPlayer
             }
             catch (Exception exception)
             {
+                Debug.WriteLine("Exeption in ShowWindow");
                 Debug.WriteLine(exception.Message);
             }
             return true;
@@ -165,7 +179,10 @@ namespace GoldMidiPlayer
                 if (midiFile != null)
                 {
                     MainModule.AddMidiFile(midiFile);
-                    state = States.Midi_loaded;
+                    if (state == States.Idle || state == States.Midi_loaded)
+                        state = States.Midi_loaded;
+                    else
+                        state = States.All_loaded;
                 }
             }
             catch (Exception exep)
@@ -176,18 +193,94 @@ namespace GoldMidiPlayer
 
         private void UpdateState()
         {
+            Debug.WriteLine(MainModule.state);
             switch (MainModule.state)
             {
                 case States.Idle:
-                    Debug.WriteLine("Updating to Idle");
+                    GlobalVolText.Foreground = SecondaryColorText;
+                    GlobalVolumeSlider.IsEnabled = false;
+                    OpenMidiButton.IsEnabled = true;
+                    SaveMidiButton.IsEnabled = false;
+                    OpenSoundfontButton.IsEnabled = true;
+                    GoldMidiPageButton.IsEnabled = true;
+                    Mp3ExportButton.IsEnabled = false;
+                    MixerButton.IsEnabled = false;
+                    PianoButton.IsEnabled = true;
+                    SettingsButton.IsEnabled = true;
+                    PlaylistButton.IsEnabled = false;
+                    KeyText.Foreground = SecondaryColorText;
+                    MidiNameText.Foreground = SecondaryColorText;
+                    MidiTimeSignatureText.Foreground = SecondaryColorText;
+                    MidiCurrentTimeText.Foreground = SecondaryColorText;
+                    MidiPositionSlider.IsEnabled = false;
+                    MidiLenghtText.Foreground = SecondaryColorText;
+                    AutoplayButton.IsEnabled = false;
+                    RepeatAllButton.IsEnabled = false;
+                    RepeatSongButton.IsEnabled = false;
+                    PreviusButton.IsEnabled = false;
+                    RewindButton.IsEnabled = false;
+                    ForwardButton.IsEnabled = false;
+                    NextButton.IsEnabled = false;
+                    StopButton.IsEnabled = false;
+                    PlayButton.IsEnabled = false;
+                    PauseButton.IsEnabled = false;
+                    GlobalPitchText.Foreground = SecondaryColorText;
+                    GlobalPitchSlider.IsEnabled = false;
+                    GlobalTempoText.Foreground = SecondaryColorText;
+                    GlobalTempoSlider.IsEnabled = false;
+                    Debug.WriteLine("Updated to Idle State");
                     break;
                 case States.Midi_loaded:
-                    Debug.WriteLine("Uptading to Midi Loaded");
+                    SaveMidiButton.IsEnabled = true;
+                    MixerButton.IsEnabled = true;
+                    PlaylistButton.IsEnabled = true;
+                    KeyText.Foreground = PrimaryColorText;
+                    MidiNameText.Foreground = PrimaryColorText;
+                    MidiTimeSignatureText.Foreground = PrimaryColorText;
+                    MidiCurrentTimeText.Foreground = PrimaryColorText;
+                    MidiPositionSlider.IsEnabled = true;
+                    MidiLenghtText.Foreground = PrimaryColorText;
+                    AutoplayButton.IsEnabled = true;
+                    RepeatAllButton.IsEnabled = true;
+                    RepeatSongButton.IsEnabled = true;
+                    GlobalTempoSlider.Value = MainModule.GetMidiFile().GlobalTempo;
+                    Debug.WriteLine("Updated to Midi Loaded");
                     break;
                 case States.Sound_font_loaded:
-                    Debug.WriteLine("Updating to SoundFont Loaded");
+                    Debug.WriteLine("Updated to SoundFont Loaded");
                     break;
                 case States.All_loaded:
+                    GlobalVolText.Foreground = PrimaryColorText;
+                    GlobalVolumeSlider.IsEnabled = true;
+                    OpenMidiButton.IsEnabled = true;
+                    SaveMidiButton.IsEnabled = true;
+                    OpenSoundfontButton.IsEnabled = true;
+                    GoldMidiPageButton.IsEnabled = true;
+                    Mp3ExportButton.IsEnabled = true;
+                    MixerButton.IsEnabled = true;
+                    PianoButton.IsEnabled = true;
+                    SettingsButton.IsEnabled = true;
+                    PlaylistButton.IsEnabled = true;
+                    KeyText.Foreground = PrimaryColorText;
+                    MidiNameText.Foreground = PrimaryColorText;
+                    MidiTimeSignatureText.Foreground = PrimaryColorText;
+                    MidiCurrentTimeText.Foreground = PrimaryColorText;
+                    MidiPositionSlider.IsEnabled = true;
+                    MidiLenghtText.Foreground = PrimaryColorText;
+                    AutoplayButton.IsEnabled = true;
+                    RepeatAllButton.IsEnabled = true;
+                    RepeatSongButton.IsEnabled = true;
+                    PreviusButton.IsEnabled = true;
+                    RewindButton.IsEnabled = true;
+                    ForwardButton.IsEnabled = true;
+                    NextButton.IsEnabled = true;
+                    StopButton.IsEnabled = true;
+                    PlayButton.IsEnabled = true;
+                    PauseButton.IsEnabled = true;
+                    GlobalPitchText.Foreground = PrimaryColorText;
+                    GlobalPitchSlider.IsEnabled = true;
+                    GlobalTempoText.Foreground = PrimaryColorText;
+                    GlobalTempoSlider.IsEnabled = true;
                     Debug.WriteLine("Updating to All Loaded!");
                     break;
                 default:
@@ -200,7 +293,10 @@ namespace GoldMidiPlayer
         {
             bool success = await bassManager.LoadFonts();
             if (success)
-                state = States.Sound_font_loaded;
+                if (state == States.Idle || state == States.Sound_font_loaded)
+                    state = States.Sound_font_loaded;
+                else
+                    state = States.All_loaded;
         }
 
         private void StopMidi(object sender, RoutedEventArgs e)
@@ -282,6 +378,12 @@ namespace GoldMidiPlayer
             bool isPlaying = bassManager.IsPlaying();
             if (isPlaying)
                 MainModule.PositionInTime = bassManager.Forward();
+        }
+
+        private void SaveMidiFile(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            Debug.WriteLine(MainModule.GetMidiFile().Name);
         }
     }
 }

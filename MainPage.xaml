@@ -18,6 +18,12 @@
     </Page.DataContext>
 
     <Grid Width="800" MaxHeight="200">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Button">
+                <VisualState x:Name="Idle"/>
+                <VisualState x:Name="Disabled1"/>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/MainModule.png" />
         </Grid.Background>
@@ -56,12 +62,15 @@
                     <ColumnDefinition Width="42"/>
                     <ColumnDefinition Width="42"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="42" Height="42" Margin="0,12,0,0" Click="OpenMidi">
+                <Button x:Name="OpenMidiButton" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="42" Height="42" Margin="0,12,0,0" Click="OpenMidi">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
                                 <ResourceDictionary x:Key="Default">
                                     <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonOpenHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Disabled">
+                                    <ImageBrush x:Key="ButtonBackgroundDisabled" ImageSource="/Assets/ButtonOpenDisabled" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top" />
                                 </ResourceDictionary>
                             </ResourceDictionary.ThemeDictionaries>
                         </ResourceDictionary>
@@ -71,21 +80,12 @@
                         </ImageBrush>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="2" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
-                    <Button.Resources>
-                        <ResourceDictionary>
-                            <ResourceDictionary.ThemeDictionaries>
-                                <ResourceDictionary x:Key="Default">
-                                    <ImageBrush x:Key="ButtonBackgroundPointerOver" ImageSource="/Assets/ButtonSaveHover.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
-                                </ResourceDictionary>
-                            </ResourceDictionary.ThemeDictionaries>
-                        </ResourceDictionary>
-                    </Button.Resources>
+                <Button Style="{StaticResource SaveButtonTemplate}" x:Name="SaveMidiButton" Grid.Column="2" VerticalAlignment="Center" Width="45" Height="45" Margin="0,12,0,0" HorizontalAlignment="Center" Click="SaveMidiFile">
                     <Button.Background>
-                        <ImageBrush ImageSource="/Assets/ButtonSave.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
+                        <ImageBrush ImageSource="/Assets/ButtonSave.png" Stretch="UniformToFill"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="3" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="OpenFont">
+                <Button x:Name="OpenSoundfontButton" Grid.Column="3" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="OpenFont">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -99,7 +99,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonSf2.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="4" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="GoToWebsite">
+                <Button x:Name="GoldMidiPageButton" Grid.Column="4" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="GoToWebsite">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -113,7 +113,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonGM.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="5" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="ExportMp3">
+                <Button Style="{StaticResource Mp3ButtonTemplate}" x:Name="Mp3ExportButton" Grid.Column="5" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="ExportMp3">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -127,7 +127,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonMp3.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
-                <ToggleButton Style="{StaticResource ToggleButtonMixer}" x:Name="MixerBtn" Grid.Column="6" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="MixerBtn_Click" Checked="MixerBtn_Checked">
+                <ToggleButton Style="{StaticResource ToggleButtonMixer}" x:Name="MixerButton" Grid.Column="6" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="MixerBtn_Click" Checked="MixerBtn_Checked">
                     <ToggleButton.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -141,8 +141,8 @@
                         <ImageBrush ImageSource="/Assets/ButtonMixer.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </ToggleButton.Background>
                 </ToggleButton>
-                <Button Grid.Column="7" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
-                    <Button.Resources>
+                <ToggleButton x:Name="PianoButton" Grid.Column="7" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                    <ToggleButton.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
                                 <ResourceDictionary x:Key="Default">
@@ -150,13 +150,13 @@
                                 </ResourceDictionary>
                             </ResourceDictionary.ThemeDictionaries>
                         </ResourceDictionary>
-                    </Button.Resources>
-                    <Button.Background>
+                    </ToggleButton.Resources>
+                    <ToggleButton.Background>
                         <ImageBrush ImageSource="/Assets/ButtonPiano.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
-                    </Button.Background>
-                </Button>
-                <Button Grid.Column="8" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
-                    <Button.Resources>
+                    </ToggleButton.Background>
+                </ToggleButton>
+                <ToggleButton x:Name="SettingsButton" Grid.Column="8" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center">
+                    <ToggleButton.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
                                 <ResourceDictionary x:Key="Default">
@@ -164,12 +164,12 @@
                                 </ResourceDictionary>
                             </ResourceDictionary.ThemeDictionaries>
                         </ResourceDictionary>
-                    </Button.Resources>
-                    <Button.Background>
+                    </ToggleButton.Resources>
+                    <ToggleButton.Background>
                         <ImageBrush ImageSource="/Assets/ButtonSettings.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
-                    </Button.Background>
-                </Button>
-                <ToggleButton Grid.Column="9" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="OpenPlayListScreen">
+                    </ToggleButton.Background>
+                </ToggleButton>
+                <ToggleButton x:Name="PlaylistButton" Grid.Column="9" VerticalAlignment="Top" Width="42" Height="42" Margin="0,12,0,0" HorizontalAlignment="Center" Click="OpenPlayListScreen">
                     <ToggleButton.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -199,7 +199,7 @@
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="0" Margin="8,5,1,5" Width="188" Height="35" />
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="1" Margin="1,5,1,5" Width="54" Height="35" />
                 <Rectangle Style="{StaticResource RectangleFieldPrintText}" Grid.Column="2" Margin="1,5,1,5" Height="35" Width="56" />
-                <TextBlock Style="{StaticResource TextBlockFieldPrint}" Grid.Column="0" HorizontalAlignment="Left" Margin="22,0,0,0" Text="KEY" />
+                <TextBlock x:Name="KeyText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="0" HorizontalAlignment="Left" Margin="22,0,0,0" Text="KEY" />
                 <TextBlock x:Name="MidiTimeSignatureText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="1" Text="{x:Bind MainModule.DisplayKey, Mode=OneWay}" FontSize="14" />
                 <TextBlock x:Name="MidiCurrentTimeText" Style="{StaticResource TextBlockFieldPrint}" Grid.Column="2" Text="{x:Bind MainModule.PositionInTimeToString, Mode=OneWay}" />
                 <Border Grid.Column="3" Background="#FF2D3F45" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="5,5,5,5" Width="214" Height="30" Margin="1,1,1,5" BorderBrush="#0b1012" BorderThickness="1,1,1,1" />
@@ -263,7 +263,7 @@
                         <ImageBrush ImageSource="/Assets/RepeatSongButton.png"/>
                     </ToggleButton.Background>
                 </ToggleButton>
-                <Button x:Name="PreviusButton" Grid.Column="3" HorizontalAlignment="Center" Width="49" Height="27" >
+                <Button Style="{StaticResource PreviusButtonTemplate}" x:Name="PreviusButton" Grid.Column="3" HorizontalAlignment="Center" Width="45" Height="27" >
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -274,10 +274,10 @@
                         </ResourceDictionary>
                     </Button.Resources>
                     <Button.Background>
-                        <ImageBrush ImageSource="/Assets/ButtonPrev.png"/>
+                        <ImageBrush ImageSource="/Assets/ButtonPrev.png" Stretch="UniformToFill"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="RewindButton" Grid.Column="4" HorizontalAlignment="Center" Width="49" Height="27" Click="Rewind" >
+                <Button Style="{StaticResource RewindButtonTemplate}" x:Name="RewindButton" Grid.Column="4" HorizontalAlignment="Center" Width="49" Height="27" Click="Rewind" >
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -291,7 +291,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonRewind.png"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="ForwardButton" Grid.Column="5" HorizontalAlignment="Center" Width="49" Height="27" Click="Forward">
+                <Button Style="{StaticResource ForwardButtonTemplate}" x:Name="ForwardButton" Grid.Column="5" HorizontalAlignment="Center" Width="49" Height="27" Click="Forward">
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -305,7 +305,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonFordward.png"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="NextButton" Grid.Column="6" HorizontalAlignment="Center" Width="49" Height="27" >
+                <Button Style="{StaticResource ButtonNextTemplate}" x:Name="NextButton" Grid.Column="6" HorizontalAlignment="Center" Width="49" Height="27" >
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -319,7 +319,7 @@
                         <ImageBrush ImageSource="/Assets/ButtonNext.png"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="StopButton" Grid.Column="7" HorizontalAlignment="Center" Width="49" Height="27" Click="StopMidi" >
+                <Button Style="{StaticResource ButtonStopTemplate}" x:Name="StopButton" Grid.Column="7" HorizontalAlignment="Center" Click="StopMidi" >
                     <Button.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.ThemeDictionaries>
@@ -330,7 +330,7 @@
                         </ResourceDictionary>
                     </Button.Resources>
                     <Button.Background>
-                        <ImageBrush ImageSource="/Assets/ButtonStop.png"/>
+                        <ImageBrush ImageSource="/Assets/ButtonStop.png" Stretch="UniformToFill" AlignmentX="Left" AlignmentY="Top"/>
                     </Button.Background>
                 </Button>
                 <ToggleButton Style="{StaticResource PlayButton}" x:Name="PlayButton" Grid.Column="8" HorizontalAlignment="Center" Width="49" Height="27" Click="PlayMidi">
